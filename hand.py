@@ -1,12 +1,15 @@
 import random
 MINIMUM_BET = 25
 
+MIN_BET_MSG = f'Place your bet (min. ${MINIMUM_BET}): '
 BLACKJACK_DEALER_MSG = 'Blackjack - Dealer Wins :('
 BLACKJACK_PLAYER_MSG = 'Blackjack - You Win!'
 BLACKJACK_PUSH_MSG = 'Push - blackjack for everyone'
-BLACKJACK_NOBODY_HOME = "Dealer checked for Blackjack ... Nobody's Home!"
-INSURANCE_QUESTION = 'Would you like insurance on your hand (Y / N)?: '
-INVALID_INPUT = 'Invalid Input: Please Try Again!'
+BLACKJACK_NOBODY_HOME_MSG = "Dealer checked for Blackjack ... Nobody's Home!"
+INSURANCE_QUESTION_MSG = 'Would you like insurance on your hand (Y / N)?: '
+INVALID_INPUT_MSG = 'Invalid Input: Please Try Again!'
+INSUFFICIENT_FUNDS_MSG = 'Insufficent Funds: Please visit menu to deposit funds.'
+MIN_BET_ERROR_MSG = 'Minimum bet not satisifed: Please place a bet equal or greater than the table minimum.'
 
 doc = ('AH','AD','AC','AS',
        'KH','KD','KC','KS',
@@ -37,7 +40,6 @@ doc_values = {'A' : None,
               '2' : 2}
 
 suit_values = {'H':'Hearts','D':'Diamonds','C':'Clubs','S':'Spades'}
-
 class BlackjackHand:
     '''
     Represents a hand of blackjack
@@ -80,68 +82,80 @@ def place_bet(wallet_value:int) -> int:
         bet_amount: the amount of the money the user is wagering from their wallet
     '''
     
-    bet_amount = input(f'Place your bet (min. ${MINIMUM_BET}): ')
+    bet_amount = input(MIN_BET_MSG)  # prompt the user to enter their bet
 
-    if bet_amount.isdigit() == False:
-        print(f'Invalid Input: Please re-enter a valid bet amount.')
+    if bet_amount.isdigit() == False:  # if the bet is not an integer
+        print(INVALID_INPUT_MSG)  # reprompt
         return place_bet(wallet_value)
     
-    bet_amount = int(bet_amount)
+    bet_amount = int(bet_amount)  # convert the str to int
 
-    if (wallet_value - bet_amount) < 0:
-        print('Insufficent Funds: Please visit menu to deposit funds.')
+    if (wallet_value - bet_amount) < 0:  # if the bet can't be covered by the wallet amount
+        print(INSUFFICIENT_FUNDS_MSG)  # reprompt
         return place_bet(wallet_value)
     
-    elif bet_amount < 25:
-        print(f'Minimum bet not satisifed: Please place a bet equal or greater than the table minimum.')
+    elif bet_amount < MINIMUM_BET:  # if the bet does not meet the minimum
+        print(MIN_BET_ERROR_MSG)  # re-prompt
         return place_bet(wallet_value)
     
     return bet_amount
 
 def hand_calculator(hand:list) -> int:
     '''
-    Takes a hand of cards (list) and calculates the value of the hand; 
+    Takes a hand of cards and calculates the value of the hand; 
     Aces will default as high (11) until the hand value exceeds 21, in which case the ace value(s) will revert to low (1) automatically.
 
     Arguments:
-        hand: list of card (codes) that make up blackjack hand - can be either player or dealer
+        hand: list of card that make up the blackjack hand - can be either player or dealer
 
     Returns:
         hand_value: the value of the blackjack hand 
-    
     '''
 
     hand_value = 0
     ace_cnt = 0
 
-    for card in hand:
+    for card in hand:  # iterating through hand
         
-        if card[:-1] == 'A':
-            ace_cnt += 1
+        if card[:-1] == 'A':  # if the card is an ace
+            ace_cnt += 1  # count it and move on (will handle in the end)
         
         else:
-            hand_value += doc_values[card[:-1]]
+            hand_value += doc_values[card[:-1]]  # all non-ace cards, add the card value to the hand value
     
-    for ace in range(ace_cnt):
+    for ace in range(ace_cnt):  # for the number of aces counted
 
-        if hand_value + 11 > 21:
+        if hand_value + 11 > 21:  # if the ace will send the hand over the top, count it as a hard ace (1)
             hand_value += 1
-        else:
+        else:  # otherwise, count it as a soft ace (11)
             hand_value += 11
 
     return hand_value
 
 def dealer_play(hand:object) -> None:
+    '''
+    Automatic hitting for the dealer, based on soft 17 gameplay.
 
-    # soft 17 - dealer will stand on soft 17 or higher
+    Arguments:
+        hand: a hand of blackjack
+    '''
         
-    while hand.value() < 17:
+    while hand.value() < 17:  # soft 17 - dealer will stand on soft 17 or higher
 
-        hit_card = hand.hit()
+        hit_card = hand.hit()  # hand hit
 
         print(f"Dealer was dealt the {card_to_text(hit_card)} ... their hand value is now {hand.value()}")
 
 def card_to_text(card:str) -> str:
+    '''
+    Takes a card from the deck and represents in a phrase
+
+    Arguments:
+        card: the card from a deck of cards, with value and suit
+    
+    Returns:
+        return_str: the phrase representation of a card (i.e., 10H = 10 of Hearts)
+    '''
 
     return_str = ''
 
@@ -150,158 +164,131 @@ def card_to_text(card:str) -> str:
     return return_str
 
 def client_option_reader(input_msg:str, options:tuple) -> str:
+    '''
+    Prompts the user with a message, and checks for valid, inputted commands
 
-    client = input(input_msg)
+    Arguments:
+        input_msg: what the user sees at the console
+        options: the valid strings that the user can enter
+    
+    Returns:
+        client: the valid option entered, from options
+    '''
 
-    client = client.strip()
+    client = input(input_msg)  # prompts the user with a message at the console
 
-    if client in options:
+    client = client.strip()  # stripping any whitespace
 
-        return client
+    if client in options:  # if the stripped input exists within the options
+
+        return client  # return that input
 
     else:
 
-        print(INVALID_INPUT)
+        print(INVALID_INPUT_MSG)  # prompt the user that their input is not within the the set of expected options
 
-        return client_option_reader(input_msg, options)
-    
-def insurance_play(dealer:object, player:object, wallet:int, bet:int) -> (bool, int, str):
+        return client_option_reader(input_msg, options)  # reprompt them with the client_option_reader()
 
-    insurance = 0
+def play_game(wallet:int=100) -> int:
 
-    if (wallet - (bet * 1.5)) >= 0:
+    bet = place_bet(wallet)  # place your inital bet
 
-        question = client_option_reader(INSURANCE_QUESTION, ('Y','N'))
+    wallet -= bet  # subtracting the initial bet from wallet value
 
-        if question == 'Y':
-            insurance += (.5 * bet)
+    insurance = 0  # initializing insurance amount of zero
 
-    if dealer.value() == 21 and player.value() != 21:
-
-        return True, (-1 * bet) + (insurance * 2), BLACKJACK_DEALER_MSG
-    
-    elif dealer.value() == 21 and player.value() == 21:
-
-        return True, 0 + (insurance * 2), BLACKJACK_PUSH_MSG
-    
-    else:
-
-        return False, insurance, BLACKJACK_NOBODY_HOME
-
-def play_game(wallet:int=100):
-
-    bet = place_bet(wallet)
-
-    total_risk = bet
-    insurance = 0
-
-    player = BlackjackHand()
-    dealer = BlackjackHand()
+    player = BlackjackHand()  # creating a random hand for the player
+    dealer = BlackjackHand()  # creating a random hand for the dealer
 
     print(f'Your hand is the {card_to_text(player.hand[0])}' + ' & ' + f'{card_to_text(player.hand[1])}, with a value of {str(player.value())}')
     print(f'Dealer showing {card_to_text(dealer.hand[0])}')
 
-    # if doc_values[dealer_show_card[:-1]] == 10 or dealer_show_card[:-1] == 'A':
+    if doc_values[dealer.hand[0][:-1]] == 10 or dealer.hand[0][:-1] == 'A':  # if the dealer shows a card worthy of checking for blackjack
 
-    #     if (wallet - (bet * 1.5)) >= 0:
+        if (wallet - (bet / 2)) >= 0:  # if you can still affort the insurance price, we will ask if you would like insurance
 
-    #         insurance_question = client_option_reader('Would you like insurance on your hand (Y / N)?: ', ('Y','N'))
+            question = client_option_reader(INSURANCE_QUESTION_MSG, ('Y','N'))  # asking about insurance
 
-    #         if insurance_question == 'Y':
-    #             insurance += (.5 * bet)
-    #             total_risk += insurance
+            if question == 'Y':  # if the user prompts yes, they will be charged 50% of their initial bet
+                insurance += (.5 * bet)  # funds applied to insurance
+                wallet -= insurance  # insurance taken out of wallet
     
-    #     if dealer.value() == 21 and dealer.value() != 21:
+        if dealer.value() == 21 and player.value() != 21:  # if the dealer has blackjack and the user does NOT
 
-    #         print(BLACKJACK_DEALER_MSG)
+            print(BLACKJACK_DEALER_MSG)  # informing user of loss
 
-    #         return (-1 * bet) + (insurance * 2)  
+            wallet += (insurance * 3)  # wallet gets 3x their insurance bet; this includes inital insurance bet (1x) + 2:1 winnings (2x)
+
+            return wallet
         
-    #     elif dealer.value() == 21 and player.value() == 21:
-    #         print(BLACKJACK_PUSH_MSG)
-    #         return 0 + (insurance * 2)
+        elif dealer.value() == 21 and player.value() == 21:  # if both dealer and player have 21
+
+            print(BLACKJACK_PUSH_MSG)  # informing user of push
+
+            wallet += (bet + (insurance * 3))  # user gets their original bet back + 3x insurance (if any)
+
+            return wallet
         
-    #     else:
-    #         print(BLACKJACK_NOBODY_HOME)
+        else:  # if there is no scenario where the dealer has blackjack
 
-    if doc_values[dealer.hand[0][:-1]] == 10 or dealer.hand[0][:-1] == 'A':
+            print(BLACKJACK_NOBODY_HOME_MSG)  # nobody is home!
 
-        stop, value, msg = insurance_play(dealer, player, wallet, bet)
+    if player.value() == 21:  # if the player has blackjack
 
-        if stop == True:
+        print(BLACKJACK_PLAYER_MSG)  # winner winner !
+        wallet += (2.5 * bet) - insurance  # return the original bet and 1.5x that amount
 
-            print(msg)
-            return value
-        
-        elif stop == False:
-
-            print(msg)
-            insurance += value
-            total_risk += insurance
-
-    ## this is where split comes into play .. think there needs to be recursion
-
-    if player.value() == 21:
-        print(BLACKJACK_PLAYER_MSG)
-        return (1.5 * bet) - insurance
+        return wallet
 
     stay = False
     double_down = False
 
     while player.value() < 21 and stay == False and double_down == False:
 
-        if len(player.hand) == 2 and (wallet - total_risk - bet) >= 0:
+        if len(player.hand) == 2 and (wallet - bet) >= 0:  # if you still have your initally dealt hand and can afford another bet, you are presented with 
+                                                            # a double down opportunity
 
-            if player.hand[0][:-1] == player.hand[1][:-1]:
-
-                move = client_option_reader('Would you like to Stay [S] / Hit [H] / Double Down [D] / Split [SS]?: ', ('S','H','D','SS'))
-
-            else:
-
-                move = client_option_reader('Would you like to Stay [S] / Hit [H] / Double Down [D]?: ', ('S','H','D'))
+            move = client_option_reader('Would you like to Stay [S] / Hit [H] / Double Down [D]?: ', ('S','H','D'))
 
         else:
 
             move = client_option_reader('Would you like to Stay [S] / Hit [H]?: ',('S','H'))
 
-        if move == 'H':
-            hit_card = player.hit()
+        if move == 'H':  # if you are opting to hit
+            hit_card = player.hit()  # the player's hand get hit
             print(f"You were dealt the {card_to_text(hit_card)} ... your hand value is now {player.value()}")
         
-        elif move == 'S':
+        elif move == 'S':  # if you are staying, set the stay variable to True to break while loop
             stay = True
         
-        elif move == 'D':
-            bet = bet * 2
-            total_risk += bet
-            hit_card = player.hit()
+        elif move == 'D':  # if you are doubling down
+            wallet -= bet  # subtract an additional bet from the user's wallet
+            hit_card = player.hit()  # take a hit
             print(f"Doubled Down! You were dealt the {card_to_text(hit_card)} ... your hand value is now {player.value()}")
-            double_down = True
+            double_down = True  # set the double down variable to True to break the loop
 
-        elif move == 'SS':
-
-            continue
-
-    if player.value() > 21:
+    if player.value() > 21:  # if the player has over 21 (busted)
         print(f'You busted with {str(player.value())}')
-        return (-1 * bet) - insurance
+        return wallet  # current value of wallet, with losses already reflected
     
     print(f'Dealer flips ... their hidden card is a {card_to_text(dealer.hand[1])}, yielding a dealer hand value of {dealer.value()}')
-    
-    dealer_play(dealer)
+    dealer_play(dealer)  # dealer automatically hits until they hit hard 17+ or bust
 
-    if dealer.value() > 21:
+    if dealer.value() > 21:  # if the dealer busts
         print('Dealer Busted - You Win!')
-        return bet - insurance
-    elif dealer.value() > player.value():
+        wallet += (bet * 2)  # player gets original bet plus 1x in winnings
+        return wallet
+    elif dealer.value() > player.value():  # if the dealer beats the player's hand
         print('Dealer wins!')
-        return (-1 * bet) - insurance
-    elif dealer.value() < player.value():
+        return wallet  # current value of wallet, with losses already reflected
+    elif dealer.value() < player.value():  # if the player beats the dealer's hand,
         print('Player wins!')
-        return bet - insurance
-    else:
+        wallet += (bet * 2)  # player gets original bet plus 1x in winnings
+        return wallet
+    else:  # both player and dealer have hands of equal value
         print('Push - nobody wins!')
-        return 0 - insurance
+        wallet += bet  # player gets original bet back
+        return wallet
     
 def main():
 
@@ -310,5 +297,14 @@ def main():
 
     pass
 
-while True:
-    play_game()
+wallet = 100
+
+while wallet > 0:
+    inital_wallet = wallet
+    print(f'Wallet Amount: ${str(wallet)}')
+    wallet = play_game(wallet)
+    if inital_wallet > wallet:
+        print(f'You Lost: ${str(abs(inital_wallet - wallet))}')
+    elif inital_wallet < wallet:
+        print(f'You Won: ${str(abs(inital_wallet - wallet))}')
+    
