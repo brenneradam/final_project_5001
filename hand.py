@@ -1,4 +1,6 @@
 import random
+import time
+
 MINIMUM_BET = 25
 
 MIN_BET_MSG = f'Place your bet (min. ${MINIMUM_BET}): '
@@ -141,7 +143,7 @@ def dealer_play(hand:object) -> None:
     '''
         
     while hand.value() < 17:  # soft 17 - dealer will stand on soft 17 or higher
-
+        
         hit_card = hand.hit()  # hand hit
 
         print(f"Dealer was dealt the {card_to_text(hit_card)} ... their hand value is now {hand.value()}")
@@ -201,6 +203,7 @@ def play_game(wallet:int=100) -> int:
     dealer = BlackjackHand()  # creating a random hand for the dealer
 
     print(f'Your hand is the {card_to_text(player.hand[0])}' + ' & ' + f'{card_to_text(player.hand[1])}, with a value of {str(player.value())}')
+
     print(f'Dealer showing {card_to_text(dealer.hand[0])}')
 
     if doc_values[dealer.hand[0][:-1]] == 10 or dealer.hand[0][:-1] == 'A':  # if the dealer shows a card worthy of checking for blackjack
@@ -290,6 +293,98 @@ def play_game(wallet:int=100) -> int:
         wallet += bet  # player gets original bet back
         return wallet
     
+# user tracking functionality
+
+def user_credentials() -> (str, str):
+
+    username = input('Please enter your username: ')  # user inputs their username
+    password = input('Please enter your password (case sensitive): ')  # user inputs their password
+
+    username = username.strip()
+    password = password.strip()
+
+    return username, password
+
+def user_login(username:str, password:str) -> list:
+
+    try:
+        
+        with open('blackjack_account_log.txt', 'r') as file:  # trying to open the account log
+            
+            for line in file:  # for each line in the file
+
+                account = line.split(',')  # split all the account information (comma seperated)
+
+                if account[0] == username:  # if the username (in account line) matches the provided username
+
+                    if account[1].strip() == password:  # if the user name and password match
+
+                        return account  # return all the account information
+                
+                    elif account[1].strip() != password:  # if the username matches but the password does not
+
+                        print('Invalid password - please try again')
+
+                        return None
+                
+                else:
+
+                    pass
+                    
+        print(f"We can't find an account under the provided username: {username} - please create an account to get started!")  # inidicate if there is no username
+
+        return None
+    
+    except FileNotFoundError:
+
+        print('No users found - please create a user account to get started!')
+
+        return None
+
+def user_already_exists(user:str) -> bool:
+
+    with open('blackjack_account_log.txt', 'r') as file:  # open the file
+
+        for line in file:  # iterate through each line
+
+            x = line.split(',')  # split up the account information (comma seperated)
+
+            if x[0] == user:  # if the username exists, return True
+
+                return True
+            
+def new_user():
+
+    user, pwd = user_credentials()  # get credentials
+
+    try:  # if the file exists
+
+        exists = False
+
+        with open('blackjack_account_log.txt', 'r') as file:  # read the file
+            
+            if user_already_exists(user) == True:  # if the username already exists
+                print('Username already in use - please specify a unique username!')
+                exists = True
+
+        if exists != True:
+
+            with open('blackjack_account_log.txt', 'a') as file: 
+
+                file.write(f'{user},{pwd},0\n')
+                print(f'Username: {user}')
+                print(f'Password: {pwd}')
+                print(f'Wallet: $0')
+
+    except FileNotFoundError:
+
+        with open('blackjack_account_log.txt', 'w') as file:
+
+            file.write(f'{user},{pwd},0\n')
+            print(f'Username: {user}')
+            print(f'Password: {pwd}')
+            print(f'Wallet: $0')
+
 def main():
 
     ## menu
@@ -297,14 +392,15 @@ def main():
 
     pass
 
-wallet = 100
+# wallet = 100
 
-while wallet > 0:
-    inital_wallet = wallet
-    print(f'Wallet Amount: ${str(wallet)}')
-    wallet = play_game(wallet)
-    if inital_wallet > wallet:
-        print(f'You Lost: ${str(abs(inital_wallet - wallet))}')
-    elif inital_wallet < wallet:
-        print(f'You Won: ${str(abs(inital_wallet - wallet))}')
+# while wallet > 0:
+#     inital_wallet = wallet
+#     print(f'Wallet Amount: ${str(wallet)}')
+#     wallet = play_game(wallet)
+#     if inital_wallet > wallet:
+#         print(f'You Lost: ${str(abs(inital_wallet - wallet))}')
+#     elif inital_wallet < wallet:
+#         print(f'You Won: ${str(abs(inital_wallet - wallet))}')
     
+print(user_login('adambrenner2','abc'))
