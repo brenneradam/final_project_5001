@@ -193,6 +193,8 @@ def client_option_reader(input_msg:str, options:tuple) -> str:
 
 def play_game(wallet:int=100) -> int:
 
+    print(f'Current wallet amount: ${wallet}')
+
     bet = place_bet(wallet)  # place your inital bet
 
     wallet -= bet  # subtracting the initial bet from wallet value
@@ -323,7 +325,7 @@ def user_login(username:str, password:str) -> list:
                 
                     elif account[1].strip() != password:  # if the username matches but the password does not
 
-                        print('Invalid password - please try again')
+                        print('Invalid password!')
 
                         return None
                 
@@ -387,10 +389,116 @@ def new_user():
 
 def main():
 
-    ## menu
-    ## wallet loading
+    account = None
 
-    pass
+    while True:
+
+        user_input = input("What would you like to do (type 'Help'for more information)?: ")
+
+        if user_input == 'Play':
+
+            if account == None:
+
+                print('Account required - please log into your account to play blackjack!')
+
+                continue
+
+            wallet = int(float(account[2]))
+
+            if wallet == 0:
+                print('Please load funds to your wallet!')
+
+                continue
+
+            play_again = True
+            inital_hand = True
+
+            while wallet > 0 and play_again == True:
+                
+                if inital_hand == False:
+
+                    question = client_option_reader('Want to play another hand (Y/N)?: ', ('Y','N'))
+
+                    if question == 'Y':
+                        
+                        pass 
+
+                    else:
+
+                        break
+
+                else:
+                    inital_hand = False
+
+                new_wallet = play_game(wallet)
+
+                if wallet > new_wallet:
+                    print(f'You Lost: ${str(abs(wallet - new_wallet))}')
+                elif wallet < new_wallet:
+                    print(f'You Won: ${str(abs(wallet - new_wallet))}')
+
+                wallet = new_wallet
+
+        # write to log with new wallet balance
+        
+        elif user_input == 'Login':
+
+            user, pwd = user_credentials()
+
+            account = user_login(user, pwd)
+
+            if account != None:
+
+                print(f'Welcome {user}, you are now logged in!')
+
+        elif user_input == 'Logout':
+
+            account = None
+        
+        elif user_input == 'Create':
+
+            new_user()
+
+        elif user_input == 'Deposit':
+
+            if account == None:
+
+                print('Please login before loading to your wallet')
+                
+                continue
+
+            deposit = 0
+
+            print(f'Your current wallet amount is ${account[2].strip()}')
+
+            while deposit == 0:
+
+                input_deposit = input('How much would you like to deposit?: ')
+
+                if input_deposit.isdigit() == False:
+
+                    print('Invalid amount - please try again!')
+
+                    continue
+
+                else:
+
+                    deposit = int(float(input_deposit))
+
+            wallet = int(float(account[2])) 
+            wallet += deposit
+            account[2] = str(wallet)
+
+            ## write to log with new wallet balance
+
+            print(f'You sucessfully deposited ${deposit}, your wallet balance is ${wallet}')
+
+        elif user_input == 'Quit':
+
+            print('Thanks for playing!')
+
+            break
+
 
 # wallet = 100
 
@@ -403,4 +511,4 @@ def main():
 #     elif inital_wallet < wallet:
 #         print(f'You Won: ${str(abs(inital_wallet - wallet))}')
     
-print(user_login('adambrenner2','abc'))
+main()
