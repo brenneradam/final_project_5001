@@ -1,5 +1,4 @@
 import random
-import time
 
 MINIMUM_BET = 25
 
@@ -60,18 +59,6 @@ class BlackjackHand:
     def value(self):
 
         return hand_calculator(self.hand)
-    
-    def split(self):
-
-        split_card = self.hand[1]
-
-        split_1 = BlackjackHand()
-        split_1.hand[0] = split_card
-
-        split_2 = BlackjackHand()
-        split_2.hand[0] = split_card
-
-        return split_1, split_2
 
 def place_bet(wallet_value:int) -> int:
     '''
@@ -90,7 +77,7 @@ def place_bet(wallet_value:int) -> int:
         print(INVALID_INPUT_MSG)  # reprompt
         return place_bet(wallet_value)
     
-    bet_amount = int(bet_amount)  # convert the str to int
+    bet_amount = float(bet_amount)  # convert the str to int
 
     if (wallet_value - bet_amount) < 0:  # if the bet can't be covered by the wallet amount
         print(INSUFFICIENT_FUNDS_MSG)  # reprompt
@@ -219,7 +206,8 @@ def play_game(wallet:int=100) -> int:
                 wallet -= insurance  # insurance taken out of wallet
     
         if dealer.value() == 21 and player.value() != 21:  # if the dealer has blackjack and the user does NOT
-
+            
+            print(f'Dealer flips ... their hidden card is a {card_to_text(dealer.hand[1])}, yielding a dealer hand value of {dealer.value()}')
             print(BLACKJACK_DEALER_MSG)  # informing user of loss
 
             wallet += (insurance * 3)  # wallet gets 3x their insurance bet; this includes inital insurance bet (1x) + 2:1 winnings (2x)
@@ -228,6 +216,7 @@ def play_game(wallet:int=100) -> int:
         
         elif dealer.value() == 21 and player.value() == 21:  # if both dealer and player have 21
 
+            print(f'Dealer flips ... their hidden card is a {card_to_text(dealer.hand[1])}, yielding a dealer hand value of {dealer.value()}')
             print(BLACKJACK_PUSH_MSG)  # informing user of push
 
             wallet += (bet + (insurance * 3))  # user gets their original bet back + 3x insurance (if any)
@@ -281,15 +270,23 @@ def play_game(wallet:int=100) -> int:
 
     if dealer.value() > 21:  # if the dealer busts
         print('Dealer Busted - You Win!')
-        wallet += (bet * 2)  # player gets original bet plus 1x in winnings
-        return wallet
+        if double_down == True:
+            wallet += (bet * 4)  # player gets original bet plus 1x in winnings
+            return wallet
+        else:
+            wallet += (bet * 2)  # player gets original bet plus 1x in winnings
+            return wallet
     elif dealer.value() > player.value():  # if the dealer beats the player's hand
         print('Dealer wins!')
         return wallet  # current value of wallet, with losses already reflected
     elif dealer.value() < player.value():  # if the player beats the dealer's hand,
         print('Player wins!')
-        wallet += (bet * 2)  # player gets original bet plus 1x in winnings
-        return wallet
+        if double_down == True:
+            wallet += (bet * 4)  # player gets original bet plus 1x in winnings
+            return wallet
+        else:
+            wallet += (bet * 2)  # player gets original bet plus 1x in winnings
+            return wallet
     else:  # both player and dealer have hands of equal value
         print('Push - nobody wins!')
         wallet += bet  # player gets original bet back
@@ -373,10 +370,10 @@ def new_user():
 
             with open('blackjack_account_log.txt', 'a') as file: 
 
-                file.write(f'{user},{pwd},0\n')
+                file.write(f'{user},{pwd},0.00\n')
                 print(f'Username: {user}')
                 print(f'Password: {pwd}')
-                print(f'Wallet: $0')
+                print(f'Wallet: $0.00')
 
     except FileNotFoundError:
 
@@ -385,25 +382,41 @@ def new_user():
             file.write(f'{user},{pwd},0\n')
             print(f'Username: {user}')
             print(f'Password: {pwd}')
-            print(f'Wallet: $0')
+            print(f'Wallet: $0.00')
+
+# def update_wallet(account):
+
+#     file = open('blackjack_account_log.txt', 'r')
+        
+#     lines = file.readlines() 
+
+#     file.close()
+
+#     for line in lines:
+#         if line[0] == account[0]:
+#             line[2] = account[2]
+
+#     with open('blackjack_account_log.txt', 'w') as file: 
+#         file.writelines(lines)
 
 def main():
 
     account = None
+    print('Welcome to Blackjack 1.0 !')
 
     while True:
 
-        user_input = input("What would you like to do (type 'Help'for more information)?: ")
+        user_input = client_option_reader("What would you like to do (type 'Help' for more info)?: ", ('Create', 'Login', 'Play', 'Logout', 'Deposit', 'Balance', 'Quit', 'Help'))
 
         if user_input == 'Play':
 
             if account == None:
 
-                print('Account required - please log into your account to play blackjack!')
+                print('Login Required!')
 
                 continue
 
-            wallet = int(float(account[2]))
+            wallet = float(account[2])
 
             if wallet == 0:
                 print('Please load funds to your wallet!')
@@ -439,6 +452,10 @@ def main():
 
                 wallet = new_wallet
 
+            account[2] = str(wallet)
+
+            # update_wallet(account) <-------------------------- NEEDS FIXING
+
         # write to log with new wallet balance
         
         elif user_input == 'Login':
@@ -458,20 +475,34 @@ def main():
         elif user_input == 'Create':
 
             new_user()
+        
+        elif user_input == 'Balance':
+
+            if account == None:
+
+                print('Login Required!')
+
+                continue
+
+            print(f'Your balance is ${account[2].strip()}')
+
+        elif user_input == 'Help':
+
+            pass
 
         elif user_input == 'Deposit':
 
             if account == None:
 
-                print('Please login before loading to your wallet')
+                print('Login Required!')
                 
                 continue
 
-            deposit = 0
+            deposit = -1
 
             print(f'Your current wallet amount is ${account[2].strip()}')
 
-            while deposit == 0:
+            while deposit == -1:
 
                 input_deposit = input('How much would you like to deposit?: ')
 
@@ -483,11 +514,13 @@ def main():
 
                 else:
 
-                    deposit = int(float(input_deposit))
+                    deposit = float(input_deposit)
 
-            wallet = int(float(account[2])) 
+            wallet = float(account[2])
             wallet += deposit
             account[2] = str(wallet)
+
+            # update_wallet(account) <--------------------- NEEDS FIXING
 
             ## write to log with new wallet balance
 
@@ -498,17 +531,5 @@ def main():
             print('Thanks for playing!')
 
             break
-
-
-# wallet = 100
-
-# while wallet > 0:
-#     inital_wallet = wallet
-#     print(f'Wallet Amount: ${str(wallet)}')
-#     wallet = play_game(wallet)
-#     if inital_wallet > wallet:
-#         print(f'You Lost: ${str(abs(inital_wallet - wallet))}')
-#     elif inital_wallet < wallet:
-#         print(f'You Won: ${str(abs(inital_wallet - wallet))}')
     
 main()
