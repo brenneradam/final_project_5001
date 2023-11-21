@@ -180,8 +180,6 @@ def client_option_reader(input_msg:str, options:tuple) -> str:
 
 def play_game(wallet:int=100) -> int:
 
-    print(f'Current wallet amount: ${wallet}')
-
     bet = place_bet(wallet)  # place your inital bet
 
     wallet -= bet  # subtracting the initial bet from wallet value
@@ -426,6 +424,8 @@ def main():
             play_again = True
             inital_hand = True
 
+            print(f'Current wallet amount: ${wallet}')
+
             while wallet > 0 and play_again == True:
                 
                 if inital_hand == False:
@@ -452,6 +452,8 @@ def main():
 
                 wallet = new_wallet
 
+                print(f'Current wallet amount: ${wallet}')
+
             account[2] = str(wallet)
 
             # update_wallet(account) <-------------------------- NEEDS FIXING
@@ -459,6 +461,12 @@ def main():
         # write to log with new wallet balance
         
         elif user_input == 'Login':
+
+            if account != None:
+
+                print(f'{account[0]} already logged in. Logout required!')
+
+                continue
 
             user, pwd = user_credentials()
 
