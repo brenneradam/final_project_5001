@@ -9,7 +9,7 @@ BLACKJACK_PUSH_MSG = 'Push - blackjack for everyone'
 BLACKJACK_NOBODY_HOME_MSG = "Dealer checked for Blackjack ... Nobody's Home!"
 INSURANCE_QUESTION_MSG = 'Would you like insurance on your hand (Y / N)?: '
 INVALID_INPUT_MSG = 'Invalid Input: Please Try Again!'
-INSUFFICIENT_FUNDS_MSG = 'Insufficent Funds: Please visit menu to deposit funds.'
+INSUFFICIENT_FUNDS_MSG = 'Insufficent Funds: Please visit menu to deposit more funds.'
 MIN_BET_ERROR_MSG = 'Minimum bet not satisifed: Please place a bet equal or greater than the table minimum.'
 
 doc = ('AH','AD','AC','AS',
@@ -418,18 +418,22 @@ def new_user():
 
 # def update_wallet(account):
 
-#     file = open('blackjack_account_log.txt', 'r')
+#     with open('blackjack_account_log.txt', 'r') as file: 
         
-#     lines = file.readlines() 
+#         new_lines = []
 
-#     file.close()
+#         for line in file:
 
-#     for line in lines:
-#         if line[0] == account[0]:
-#             line[2] = account[2]
+#             x = line.split(',')
 
-#     with open('blackjack_account_log.txt', 'w') as file: 
-#         file.writelines(lines)
+#             if x[0] == account[0]:
+#                 x[2] = account[2]
+#                 new_lines.append(x)
+#             else:
+#                 new_lines.append(x)
+
+#         with open('blackjack_account_log.txt', 'w') as file: 
+#             file.writelines(new_lines)
 
 def main():
     '''
@@ -526,7 +530,15 @@ def main():
         
         elif user_input == 'Create':
 
-            new_user()
+            if account != None:
+
+                print('Logout Required!')
+                
+                continue
+
+            else:
+                
+                new_user()
         
         elif user_input == 'Balance':
 
@@ -583,5 +595,5 @@ def main():
             break  # end the game
 
 if __name__ == "__main__":
-    
+
     main()
