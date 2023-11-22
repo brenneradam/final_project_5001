@@ -1,7 +1,7 @@
 """
 Blackack 1.0
 
-A program that allows users to create accounts, load their wallet, and play blackjack.
+A program that allows users to create an account, load their wallet, and play blackjack.
 
 NAME: ADAM BRENNER
 SEMESTER: FALL 2023
@@ -57,7 +57,7 @@ class BlackjackHand:
 
     def __init__(self):
         '''
-        
+
         '''
 
         self.hand = [random.choice(doc),random.choice(doc)]
@@ -311,8 +311,12 @@ def play_game(wallet:int=100) -> int:
             return wallet
     else:  # both player and dealer have hands of equal value
         print('Push - nobody wins!')
-        wallet += bet  # player gets original bet back
-        return wallet
+        if double_down == True:
+            wallet += (bet * 2)  # player gets 2x original bet
+            return wallet
+        else:
+            wallet += bet  # player gets original bet
+            return wallet
 
 def user_credentials() -> (str, str):
     '''
@@ -433,24 +437,28 @@ def new_user():
             print(f'Password: {pwd}')
             print(f'Wallet: $0.00')
 
-# def update_wallet(account):
+def update_wallet(account):
 
-#     with open('blackjack_account_log.txt', 'r') as file: 
+    with open('blackjack_account_log.txt', 'r') as file: 
+
+        lines = file.readlines() 
+    
+    found = False
+    counter = 0
+
+    while found == False and counter < len(lines):
+
+        if lines[counter].split(',')[0] == account[0]:
+
+            lines[counter] = f'{account[0]},{account[1]},{account[2]}\n'
+
+            found = True
         
-#         new_lines = []
+        counter += 1
+    
+    with open('blackjack_account_log.txt', 'w') as file: 
 
-#         for line in file:
-
-#             x = line.split(',')
-
-#             if x[0] == account[0]:
-#                 x[2] = account[2]
-#                 new_lines.append(x)
-#             else:
-#                 new_lines.append(x)
-
-#         with open('blackjack_account_log.txt', 'w') as file: 
-#             file.writelines(new_lines)
+        file.writelines(lines)
 
 def main():
     '''
@@ -515,7 +523,7 @@ def main():
 
             account[2] = str(wallet)  # when the Blackjack gameplay ends, update the user's account information with the newest wallet amount, reflecting their losses / winnings
 
-            # update_wallet(account) <-------------------------- NEEDS FIXING
+            update_wallet(account)  # updating the user's wallet amount in account history log
         
         elif user_input == 'Login':
 
@@ -542,6 +550,8 @@ def main():
                 continue  # recycle through the loop
 
             else:  # if someone is logged in
+
+                print(f'Goodbye {account[0]}!')
 
                 account = None  # set the account information to None
         
@@ -601,7 +611,7 @@ def main():
             wallet += deposit  # add the deposit
             account[2] = str(wallet)  # update the account information
 
-            # update_wallet(account) <--------------------- NEEDS FIXING
+            update_wallet(account)  # updating the user's wallet amount in account history log
 
             print(f'You sucessfully deposited ${deposit}, your wallet balance is ${wallet}')
 
