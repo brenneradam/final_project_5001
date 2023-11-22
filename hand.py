@@ -408,6 +408,10 @@ def new_user():
     '''
 
     user, pwd = user_credentials()  # get credentials
+    user = user.replace(',','')  # can't allow commas, or else it will disrupt reading / writing to account info
+    pwd = pwd.replace(',','')  # can't allow commas, or else it will disrupt reading / writing to account info
+
+    account_info = f'{user},{pwd},0.00\n'
 
     try:  # if the file exists
 
@@ -423,19 +427,23 @@ def new_user():
 
             with open('blackjack_account_log.txt', 'a') as file: 
 
-                file.write(f'{user},{pwd},0.00\n')  # append a new line with that account information
+                file.write(account_info)  # append a new line with that account information
                 print(f'Username: {user}')
                 print(f'Password: {pwd}')
                 print(f'Wallet: $0.00')
+            
+            return account_info.split(',')
 
     except FileNotFoundError:  # if no user base established
 
         with open('blackjack_account_log.txt', 'w') as file:  # write a new line with the user's account information
 
-            file.write(f'{user},{pwd},0.00\n')
+            file.write(account_info)
             print(f'Username: {user}')
             print(f'Password: {pwd}')
             print(f'Wallet: $0.00')
+
+        return account_info.split(',')
 
 def update_wallet(account):
 
@@ -565,7 +573,7 @@ def main():
 
             else:
                 
-                new_user()
+                account = new_user()
         
         elif user_input == 'Balance':
 
