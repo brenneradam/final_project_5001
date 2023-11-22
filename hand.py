@@ -1,3 +1,12 @@
+"""
+Blackack 1.0
+
+A program that allows users to create accounts, load their wallet, and play blackjack.
+
+NAME: ADAM BRENNER
+SEMESTER: FALL 2023
+"""
+
 import random
 
 MINIMUM_BET = 25
@@ -47,16 +56,24 @@ class BlackjackHand:
     '''
 
     def __init__(self):
+        '''
+        
+        '''
 
         self.hand = [random.choice(doc),random.choice(doc)]
 
     def hit(self):
+        '''
+
+        '''
 
         self.hand.append(random.choice(doc))
 
         return self.hand[-1]
     
     def value(self):
+        '''
+        '''
 
         return hand_calculator(self.hand)
 
