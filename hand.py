@@ -73,11 +73,11 @@ def place_bet(wallet_value:int) -> int:
     
     bet_amount = input(MIN_BET_MSG)  # prompt the user to enter their bet
 
-    if bet_amount.isdigit() == False:  # if the bet is not an integer
+    if bet_amount.isdigit() == False:  # if the bet is not a whole number ... does not support cents on the dollar
         print(INVALID_INPUT_MSG)  # reprompt
         return place_bet(wallet_value)
     
-    bet_amount = float(bet_amount)  # convert the str to int
+    bet_amount = float(bet_amount)  # convert the str to float
 
     if (wallet_value - bet_amount) < 0:  # if the bet can't be covered by the wallet amount
         print(INSUFFICIENT_FUNDS_MSG)  # reprompt
@@ -95,26 +95,26 @@ def hand_calculator(hand:list) -> int:
     Aces will default as high (11) until the hand value exceeds 21, in which case the ace value(s) will revert to low (1) automatically.
 
     Arguments:
-        hand: list of card that make up the blackjack hand - can be either player or dealer
+        hand: list of cards that make up the blackjack hand - can be either player or dealer
 
     Returns:
-        hand_value: the value of the blackjack hand 
+        hand_value: the counted value of the blackjack hand 
     '''
 
     hand_value = 0
     ace_cnt = 0
 
-    for card in hand:  # iterating through hand
+    for card in hand:  # iterating through each card in hand
         
         if card[:-1] == 'A':  # if the card is an ace
             ace_cnt += 1  # count it and move on (will handle in the end)
         
         else:
-            hand_value += doc_values[card[:-1]]  # all non-ace cards, add the card value to the hand value
+            hand_value += doc_values[card[:-1]]  # for all non-ace cards, add the card value to the hand value
     
     for ace in range(ace_cnt):  # for the number of aces counted
 
-        if hand_value + 11 > 21:  # if the ace will send the hand over the top, count it as a hard ace (1)
+        if hand_value + 11 > 21:  # if the ace will put the hand over 21, count it as a hard ace (1)
             hand_value += 1
         else:  # otherwise, count it as a soft ace (11)
             hand_value += 11
@@ -137,7 +137,7 @@ def dealer_play(hand:object) -> None:
 
 def card_to_text(card:str) -> str:
     '''
-    Takes a card from the deck and represents in a phrase
+    Takes a card from the deck and represents it in a phrase
 
     Arguments:
         card: the card from a deck of cards, with value and suit
@@ -146,9 +146,7 @@ def card_to_text(card:str) -> str:
         return_str: the phrase representation of a card (i.e., 10H = 10 of Hearts)
     '''
 
-    return_str = ''
-
-    return_str += (card[:-1] + ' of ' + suit_values[card[-1]])
+    return_str = (card[:-1] + ' of ' + suit_values[card[-1]])  # phrase creation
 
     return return_str
 
@@ -179,10 +177,19 @@ def client_option_reader(input_msg:str, options:tuple) -> str:
         return client_option_reader(input_msg, options)  # reprompt them with the client_option_reader()
 
 def play_game(wallet:int=100) -> int:
+    '''
+    Replicates the player experience in a single game of blackjack.
+
+    Arguments:
+        wallet: the amount of funds a user has to spend at the blackjack table
+    
+    Returns:
+        wallet: the user's updated wallet value, reflecting the winnings / losses from the single game of blackjack
+    '''
 
     bet = place_bet(wallet)  # place your inital bet
 
-    wallet -= bet  # subtracting the initial bet from wallet value
+    wallet -= bet  # subtracting the initial bet from the user's wallet value
 
     insurance = 0  # initializing insurance amount of zero
 
@@ -195,7 +202,7 @@ def play_game(wallet:int=100) -> int:
 
     if doc_values[dealer.hand[0][:-1]] == 10 or dealer.hand[0][:-1] == 'A':  # if the dealer shows a card worthy of checking for blackjack
 
-        if (wallet - (bet / 2)) >= 0:  # if you can still affort the insurance price, we will ask if you would like insurance
+        if (wallet - (bet / 2)) >= 0:  # if you can still afford the insurance price, we will ask if you would like insurance
 
             question = client_option_reader(INSURANCE_QUESTION_MSG, ('Y','N'))  # asking about insurance
 
@@ -228,7 +235,7 @@ def play_game(wallet:int=100) -> int:
     if player.value() == 21:  # if the player has blackjack
 
         print(BLACKJACK_PLAYER_MSG)  # winner winner !
-        wallet += (2.5 * bet) - insurance  # return the original bet and 1.5x that amount
+        wallet += (2.5 * bet)  # return the original bet and 1.5x that amount
 
         return wallet
 
@@ -253,7 +260,7 @@ def play_game(wallet:int=100) -> int:
         elif move == 'S':  # if you are staying, set the stay variable to True to break while loop
             stay = True
         
-        elif move == 'D':  # if you are doubling down
+        elif move == 'D':  # if you are doubling down - no need to check if you can afford (done above)
             wallet -= bet  # subtract an additional bet from the user's wallet
             hit_card = player.hit()  # take a hit
             print(f"Doubled Down! You were dealt the {card_to_text(hit_card)} ... your hand value is now {player.value()}")
@@ -264,12 +271,12 @@ def play_game(wallet:int=100) -> int:
         return wallet  # current value of wallet, with losses already reflected
     
     print(f'Dealer flips ... their hidden card is a {card_to_text(dealer.hand[1])}, yielding a dealer hand value of {dealer.value()}')
-    dealer_play(dealer)  # dealer automatically hits until they hit hard 17+ or bust
+    dealer_play(dealer)  # dealer automatically hits until they hit soft/hard 17+ or bust
 
     if dealer.value() > 21:  # if the dealer busts
         print('Dealer Busted - You Win!')
         if double_down == True:
-            wallet += (bet * 4)  # player gets original bet plus 1x in winnings
+            wallet += (bet * 4)  # player gets 2x original and 2x in winnings
             return wallet
         else:
             wallet += (bet * 2)  # player gets original bet plus 1x in winnings
@@ -280,7 +287,7 @@ def play_game(wallet:int=100) -> int:
     elif dealer.value() < player.value():  # if the player beats the dealer's hand,
         print('Player wins!')
         if double_down == True:
-            wallet += (bet * 4)  # player gets original bet plus 1x in winnings
+            wallet += (bet * 4)  # player gets 2x original bet plus 2x in winnings
             return wallet
         else:
             wallet += (bet * 2)  # player gets original bet plus 1x in winnings
@@ -289,10 +296,15 @@ def play_game(wallet:int=100) -> int:
         print('Push - nobody wins!')
         wallet += bet  # player gets original bet back
         return wallet
-    
-# user tracking functionality
 
 def user_credentials() -> (str, str):
+    '''
+    Prompts user with message to input their username and password.
+
+    Returns:
+        username: a stripped version of the provided username
+        password: a stripped version of the provided password
+    '''
 
     username = input('Please enter your username: ')  # user inputs their username
     password = input('Please enter your password (case sensitive): ')  # user inputs their password
@@ -303,6 +315,16 @@ def user_credentials() -> (str, str):
     return username, password
 
 def user_login(username:str, password:str) -> list:
+    '''
+    References a provided username and password to access the user's account information, required to play Blackjack
+
+    Arguments:
+        username: the provided username
+        password: the provided password
+    
+    Returns:
+        account: the user's account information if username is found and password is correct
+    '''
 
     try:
         
@@ -316,7 +338,7 @@ def user_login(username:str, password:str) -> list:
 
                     if account[1].strip() == password:  # if the user name and password match
 
-                        return account  # return all the account information
+                        return account  # return all the account information as a list
                 
                     elif account[1].strip() != password:  # if the username matches but the password does not
 
@@ -326,19 +348,28 @@ def user_login(username:str, password:str) -> list:
                 
                 else:
 
-                    pass
+                    pass  # continue to the next account (line) in the file
                     
-        print(f"We can't find an account under the provided username: {username} - please create an account to get started!")  # inidicate if there is no username
+        print(f"We can't find an account under the provided username: {username} - please create an account to get started!")  # inidicate if there is no username found
 
         return None
     
-    except FileNotFoundError:
+    except FileNotFoundError:  # if the file can't be found, there is no user base
 
         print('No users found - please create a user account to get started!')
 
         return None
 
 def user_already_exists(user:str) -> bool:
+    '''
+    Check's to see whether a username is already in existence.
+
+    Arguments:
+        user: a username
+    
+    Returns:
+        True / False
+    '''
 
     with open('blackjack_account_log.txt', 'r') as file:  # open the file
 
@@ -351,6 +382,9 @@ def user_already_exists(user:str) -> bool:
                 return True
             
 def new_user():
+    '''
+    Creates a new user account. Requires unique username.
+    '''
 
     user, pwd = user_credentials()  # get credentials
 
@@ -364,20 +398,20 @@ def new_user():
                 print('Username already in use - please specify a unique username!')
                 exists = True
 
-        if exists != True:
+        if exists == False:  # if the username does not exist
 
             with open('blackjack_account_log.txt', 'a') as file: 
 
-                file.write(f'{user},{pwd},0.00\n')
+                file.write(f'{user},{pwd},0.00\n')  # append a new line with that account information
                 print(f'Username: {user}')
                 print(f'Password: {pwd}')
                 print(f'Wallet: $0.00')
 
-    except FileNotFoundError:
+    except FileNotFoundError:  # if no user base established
 
-        with open('blackjack_account_log.txt', 'w') as file:
+        with open('blackjack_account_log.txt', 'w') as file:  # write a new line with the user's account information
 
-            file.write(f'{user},{pwd},0\n')
+            file.write(f'{user},{pwd},0.00\n')
             print(f'Username: {user}')
             print(f'Password: {pwd}')
             print(f'Wallet: $0.00')
@@ -398,87 +432,97 @@ def new_user():
 #         file.writelines(lines)
 
 def main():
+    '''
+    Main function of program. Launches game and provides user with menu of options.
+    '''
 
-    account = None
+    account = None  # this will be used retrieve / update account information while the user is logged in
     print('Welcome to Blackjack 1.0 !')
 
-    while True:
+    while True:  # continual loop until broken, via 'QUIT'
 
         user_input = client_option_reader("What would you like to do (type 'Help' for more info)?: ", ('Create', 'Login', 'Play', 'Logout', 'Deposit', 'Balance', 'Quit', 'Help'))
 
-        if user_input == 'Play':
+        if user_input == 'Play':  # time to play blackjack
 
-            if account == None:
+            if account == None:  # account is required, via 'Login'
 
                 print('Login Required!')
 
-                continue
+                continue  # recycle through the loop
 
-            wallet = float(account[2])
+            wallet = float(account[2])  # if logged in, access / convert the user's wallet to numeric (dollars)
 
-            if wallet == 0:
+            if wallet < MINIMUM_BET:  # if the user does not have enough funds to play the minimum bet
+
                 print('Please load funds to your wallet!')
 
-                continue
+                continue  # recycle through the loop
 
-            play_again = True
-            inital_hand = True
+            play_again = True  # placeholder for when the user opts to stop playing (break's loop)
+            inital_hand = True  # placeholder to denote when the inital hand is dealt
 
             print(f'Current wallet amount: ${wallet}')
 
-            while wallet > 0 and play_again == True:
+            while wallet >= MINIMUM_BET and play_again == True:  # while the user's wallet can cover the minimum and they want to continue playing
                 
-                if inital_hand == False:
+                if inital_hand == False:  # if this is not the first hand dealt, ask the user if they want to continue playing
 
                     question = client_option_reader('Want to play another hand (Y/N)?: ', ('Y','N'))
 
-                    if question == 'Y':
+                    if question == 'Y':  # if the answer is yes
                         
-                        pass 
+                        pass  # pass the game
 
-                    else:
+                    else:  # if the answer is no
 
-                        break
+                        break  # breaking the loop
 
                 else:
-                    inital_hand = False
+                    inital_hand = False  # if it is the initial hand, set to False for later hands
 
-                new_wallet = play_game(wallet)
+                new_wallet = play_game(wallet)  # play blackjack with the user's wallet amount
 
-                if wallet > new_wallet:
-                    print(f'You Lost: ${str(abs(wallet - new_wallet))}')
-                elif wallet < new_wallet:
-                    print(f'You Won: ${str(abs(wallet - new_wallet))}')
+                if wallet > new_wallet:  # if the wallet amount before the game is greater than the wallet amount after the game
+                    print(f'You Lost: ${str(abs(wallet - new_wallet))}')  # inform the user of their losses
+                elif wallet < new_wallet:  # if the wallet amount before the game is less than the wallet amount after the game
+                    print(f'You Won: ${str(abs(wallet - new_wallet))}')  # inform the user of their winnings
 
-                wallet = new_wallet
+                print(f'Current wallet amount: ${new_wallet}')  # inform the user of their wallet balance, post game
 
-                print(f'Current wallet amount: ${wallet}')
+                wallet = new_wallet  # update wallet to reflect the new wallet amount
 
-            account[2] = str(wallet)
+            account[2] = str(wallet)  # when the Blackjack gameplay ends, update the user's account information with the newest wallet amount, reflecting their losses / winnings
 
             # update_wallet(account) <-------------------------- NEEDS FIXING
-
-        # write to log with new wallet balance
         
         elif user_input == 'Login':
 
-            if account != None:
+            if account != None:  # if a user is already logged in
 
                 print(f'{account[0]} already logged in. Logout required!')
 
-                continue
+                continue  # recycle through the loop
 
-            user, pwd = user_credentials()
+            user, pwd = user_credentials()  # otherwise, obtain credentials
 
-            account = user_login(user, pwd)
+            account = user_login(user, pwd)  # retrieve their account information
 
-            if account != None:
+            if account != None:  # if the user was successfully identified in the backend
 
-                print(f'Welcome {user}, you are now logged in!')
+                print(f'Welcome {user}, you are now logged in!')  # welcome them
 
         elif user_input == 'Logout':
 
-            account = None
+            if account == None:  # if nobody is logged in
+
+                print('Login Required!')
+
+                continue  # recycle through the loop
+
+            else:  # if someone is logged in
+
+                account = None  # set the account information to None
         
         elif user_input == 'Create':
 
@@ -486,27 +530,27 @@ def main():
         
         elif user_input == 'Balance':
 
-            if account == None:
+            if account == None:  # if nobody is logged in
 
                 print('Login Required!')
 
-                continue
+                continue  # recycle through the loop
 
-            print(f'Your balance is ${account[2].strip()}')
+            print(f'Your balance is ${account[2].strip()}')  # else, print the user's wallet balance
 
-        elif user_input == 'Help':
+        elif user_input == 'Help':   # information about the commands
 
             pass
 
         elif user_input == 'Deposit':
 
-            if account == None:
+            if account == None:  # if nobody is logged in
 
                 print('Login Required!')
                 
-                continue
+                continue  # recycle through the loop
 
-            deposit = -1
+            deposit = -1  # placeholder for deposit amount
 
             print(f'Your current wallet amount is ${account[2].strip()}')
 
@@ -514,23 +558,21 @@ def main():
 
                 input_deposit = input('How much would you like to deposit?: ')
 
-                if input_deposit.isdigit() == False:
+                if input_deposit.isdigit() == False:  # if the deposit is not an integer
 
                     print('Invalid amount - please try again!')
 
-                    continue
+                    continue  # recycle through the deposit loop
 
                 else:
 
-                    deposit = float(input_deposit)
+                    deposit = float(input_deposit)  # take the valid deposit amount
 
-            wallet = float(account[2])
-            wallet += deposit
-            account[2] = str(wallet)
+            wallet = float(account[2])  # pull the current wallet amount
+            wallet += deposit  # add the deposit
+            account[2] = str(wallet)  # update the account information
 
             # update_wallet(account) <--------------------- NEEDS FIXING
-
-            ## write to log with new wallet balance
 
             print(f'You sucessfully deposited ${deposit}, your wallet balance is ${wallet}')
 
@@ -538,6 +580,8 @@ def main():
 
             print('Thanks for playing!')
 
-            break
+            break  # end the game
+
+if __name__ == "__main__":
     
-main()
+    main()
