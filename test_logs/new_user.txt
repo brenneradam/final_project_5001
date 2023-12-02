@@ -1,0 +1,16 @@
+Please enter your username: adambrenner
+Please enter your password (case sensitive): 123
+Username: adambrenner
+Password: 123
+['adambrenner', '123', '0.00\n']
+
+Please enter your username: adambrenner
+Please enter your password (case sensitive): iuwebdci
+Username already in use - please specify a unique username!
+None
+
+Please enter your username: diuefdfiu , ,, 5
+Please enter your password (case sensitive): wdw ,, 
+Username: diuefdfiu   5
+Password: wdw 
+['diuefdfiu   5', 'wdw ', '0.00\n']

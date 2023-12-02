@@ -1,0 +1,8 @@
+What would you like stay [S] or hit [H]?: 
+Invalid Input: Please Try Again!
+What would you like stay [S] or hit [H]?: X
+Invalid Input: Please Try Again!
+What would you like stay [S] or hit [H]?: s
+Invalid Input: Please Try Again!
+What would you like stay [S] or hit [H]?:    S    
+S

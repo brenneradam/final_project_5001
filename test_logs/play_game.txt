@@ -1,0 +1,41 @@
+Place your bet (min. $25): 10
+Minimum bet not satisifed: Please place a bet equal or greater than the table minimum.
+Place your bet (min. $25): ieuggdcijbef
+Invalid Input: Please Try Again!
+Place your bet (min. $25): -1
+Invalid Input: Please Try Again!
+Place your bet (min. $25): 101
+Insufficent Funds: Please visit menu to deposit more funds.
+Place your bet (min. $25): 25 
+Your hand is the 2 of Clubs & 10 of Hearts, with a value of 12
+Dealer showing Q of Diamonds
+Would you like insurance on your hand (Y / N)?: hbh
+Invalid Input: Please Try Again!
+Would you like insurance on your hand (Y / N)?: N
+Dealer checked for Blackjack ... Nobody's Home!
+Would you like to Stay [S] / Hit [H] / Double Down [D]?: H
+You were dealt the 9 of Hearts ... your hand value is now 21
+Dealer flips ... their hidden card is a 2 of Diamonds, yielding a dealer hand value of 12
+Dealer was dealt the A of Spades ... their hand value is now 13
+Dealer was dealt the 10 of Clubs ... their hand value is now 23
+Dealer Busted - You Win!
+125.0
+
+Place your bet (min. $25): 50
+Your hand is the Q of Spades & 8 of Hearts, with a value of 18
+Dealer showing 10 of Spades
+Would you like insurance on your hand (Y / N)?: Y
+Dealer flips ... their hidden card is a A of Diamonds, yielding a dealer hand value of 21
+Blackjack - Dealer Wins :(
+100.0
+
+Place your bet (min. $25): 25
+Your hand is the 4 of Spades & 5 of Hearts, with a value of 9
+Dealer showing Q of Spades
+Would you like insurance on your hand (Y / N)?: N
+Dealer checked for Blackjack ... Nobody's Home!
+Would you like to Stay [S] / Hit [H] / Double Down [D]?: D
+Doubled Down! You were dealt the J of Diamonds ... your hand value is now 19
+Dealer flips ... their hidden card is a Q of Hearts, yielding a dealer hand value of 20
+Dealer wins!
+50.0

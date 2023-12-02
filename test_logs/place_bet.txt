@@ -1,0 +1,12 @@
+Place your bet (min. $25): 15
+Minimum bet not satisifed: Please place a bet equal or greater than the table minimum.
+Place your bet (min. $25): -1
+Invalid Input: Please Try Again!
+Place your bet (min. $25): 101
+Insufficent Funds: Please visit menu to deposit more funds.
+Place your bet (min. $25): 25.50
+Invalid Input: Please Try Again!
+Place your bet (min. $25): fbbhj
+Invalid Input: Please Try Again!
+Place your bet (min. $25): 50
+50.0
