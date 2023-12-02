@@ -1,15 +1,15 @@
 '''
-Testing those functions / methods in blackjack.py that do not require input()
+Testing functions / methods in blackjack.py that do not require input()
 
 NAME: ADAM BRENNER
 SEMESTER: FALL 2023
 '''
 
 # will test place_bet, client_option_reader, play_game, user_credentials, new_user, main with recorded test runs (see saved IO transcripts)
-from blackjack import hand_calculator, dealer_play, card_to_text, user_login, user_already_exists, update_wallet, BlackjackHand
+from blackjack import doc, hand_calculator, dealer_play, card_to_text, user_login, user_already_exists, update_wallet, BlackjackHand
 import sys, os
 
-test_ledger_file = '/Users/adambrenner/Documents/CS 5001/Final Project/user_login_test.txt'  # account ledger file for testing
+test_ledger_file = 'user_login_test.txt'  # account ledger file for testing
 
 # found the following two functions here, as I was looking for a way to avoid print statements from called functions (https://stackoverflow.com/questions/8391411/how-to-block-calls-to-print#:~:text=If%20you%20don%27t%20want,the%20top%20of%20the%20file)
 
@@ -209,6 +209,50 @@ def test_update_wallet() -> int:
 
     return failure_count
 
+def test_BlackjackHand_hit() -> int:
+    '''
+    Tests hit method of BlackjackHand class
+
+    Returns:
+        failure_count: number of failed tests
+    '''
+
+    hand = BlackjackHand()
+
+    failure_count = 0
+
+    hit_card = hand.hit()  # taking hit on hand
+
+    if len(hand.hand) != 3:  # should expect three cards in hand
+
+        failure_count += 1
+
+    elif hit_card not in doc:  # the card should have been pulled from the deck of cards
+
+        failure_cnt += 1
+
+    return failure_count
+
+def test_BlackjackHand_value() -> int:
+    '''
+    Tests value method of BlackjackHand class
+
+    Returns:
+        failure_count: number of failed tests
+    '''
+
+    hand = BlackjackHand()
+
+    failure_count = 0
+
+    hand.hand = ['QH','AS']  # overwriting hand
+
+    if hand.value() != 21:  # value method should make use to hand_calculator to assess hand value, in this case 21
+
+        failure_count += 1
+
+    return failure_count
+
 def main():
     '''
     Main driver of testing
@@ -222,6 +266,8 @@ def main():
     user_login_fails = test_user_login()
     user_already_exists_fails = test_user_already_exists()
     update_wallet_fails = test_update_wallet()
+    blackjack_hit_fails = test_BlackjackHand_hit()
+    blackjack_value_fails = test_BlackjackHand_value()
 
     enablePrint()  # enabling prints
 
@@ -231,7 +277,9 @@ def main():
     print(f'card_to_text: {card_to_text_fails} failed tests')
     print(f'user_login: {user_login_fails} failed tests')
     print(f'user_already_exists: {user_already_exists_fails} failed tests')
-    print(f'update_wallet: {update_wallet_fails} failed tests\n')
+    print(f'update_wallet: {update_wallet_fails} failed tests')
+    print(f'BlackjackHand.hit: {blackjack_hit_fails} failed tests')
+    print(f'BlackjackHand.value: {blackjack_value_fails} failed tests\n')
 
 if __name__ == '__main__':
 
