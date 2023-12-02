@@ -398,7 +398,7 @@ def user_credentials() -> (str, str):
     return username, password
 
 
-def user_login(username: str, password: str) -> list:
+def user_login(username: str, password: str, ledger: str = ACCOUNT_LEDGER) -> list:
     '''
     References a provided username and password to access the user's account information
 
@@ -412,7 +412,7 @@ def user_login(username: str, password: str) -> list:
 
     try:
 
-        with open(ACCOUNT_LEDGER, 'r') as file:  # trying to open the account ledger
+        with open(ledger, 'r') as file:  # trying to open the account ledger
 
             for line in file:  # for each line in the file
 
@@ -452,7 +452,7 @@ def user_login(username: str, password: str) -> list:
         return None
 
 
-def user_already_exists(user: str) -> bool:
+def user_already_exists(user: str, ledger: str = ACCOUNT_LEDGER) -> bool:
     '''
     Check's to see whether a username is already in existence.
 
@@ -463,7 +463,7 @@ def user_already_exists(user: str) -> bool:
         True: Whether the username already exists
     '''
 
-    with open(ACCOUNT_LEDGER, 'r') as file:  # open the file
+    with open(ledger, 'r') as file:  # open the file
 
         for line in file:  # iterate through each line
 
@@ -524,9 +524,9 @@ def new_user():
         return account_info.split(',')
 
 
-def update_wallet(account):
+def update_wallet(account: list, ledger: str = ACCOUNT_LEDGER):
 
-    with open(ACCOUNT_LEDGER, 'r') as file:
+    with open(ledger, 'r') as file:
 
         lines = file.readlines()  # read lines in file
 
@@ -549,7 +549,7 @@ def update_wallet(account):
 
     # write new lines to file (likely need a better way to implement, instead
     # of reading all lines into memory)
-    with open(ACCOUNT_LEDGER, 'w') as file:
+    with open(ledger, 'w') as file:
 
         file.writelines(lines)
 
