@@ -10,6 +10,7 @@ SEMESTER: FALL 2023
 import random
 
 MINIMUM_BET = 25
+ACCOUNT_LEDGER = 'blackjack_account_log.txt'
 
 MIN_BET_MSG = f'Place your bet (min. ${MINIMUM_BET}): '
 BLACKJACK_DEALER_MSG = 'Blackjack - Dealer Wins :('
@@ -31,6 +32,10 @@ LOGOUT_REQ_MSG = 'Logout Required!'
 LOAD_FUNDS_MSG = 'Please load funds to your wallet!'
 INVALID_DEPOSIT_MSG = 'Invalid amount - please try again!'
 GOODBYE_MSG = 'Thanks for playing!'
+WELCOME_MSG = 'Welcome to Blackjack 1.0 !'
+NO_USERS_FOUND_MSG = 'Username not found - please create an account to get started!'
+USERNAME_ENTRY_MSG = 'Please enter your username: '
+PASSWORD_ENTRY_MSG = 'Please enter your password (case sensitive): '
 HELP_MSG = '''\nType any of the following options:\n
 Create -> Setup your account by establishing a username and password.
 Login -> You know the drill. Enter your username and password to access your wallet. (Hint: Required to Play)
@@ -54,7 +59,7 @@ doc = ('AH', 'AD', 'AC', 'AS',
        '3H', '3D', '3C', '3S',
        '2H', '2D', '2C', '2S')
 
-doc_values = {'A': None,
+doc_values = {'A': None,  # since A is variable
               'K': 10,
               'Q': 10,
               'J': 10,
@@ -108,7 +113,7 @@ class BlackjackHand:
 
 def place_bet(wallet_value: int) -> int:
     '''
-    Prompts the user to place a bet; required to be equal or greater than minimum bet
+    Prompts the user to place a bet; required to be equal or greater than yminimum bet
 
     Arguments:
         wallet_value: the amount of money available in the user's account
@@ -162,8 +167,7 @@ def hand_calculator(hand: list) -> int:
 
     for ace in range(ace_cnt):  # for the number of aces counted
 
-        if hand_value + \
-                11 > 21:  # if the ace will put the hand over 21, count it as a hard ace (1)
+        if hand_value + 11 > 21:  # if the ace will put the hand over 21, count it as a hard ace (1)
             hand_value += 1
         else:  # otherwise, count it as a soft ace (11)
             hand_value += 11
@@ -183,8 +187,7 @@ def dealer_play(hand: object) -> None:
 
         hit_card = hand.hit()  # hand hit
 
-        print(
-            f"Dealer was dealt the {card_to_text(hit_card)} ... their hand value is now {hand.value()}")
+        print(f"Dealer was dealt the {card_to_text(hit_card)} ... their hand value is now {hand.value()}")
 
 
 def card_to_text(card: str) -> str:
@@ -242,7 +245,7 @@ def play_game(wallet) -> int:
         wallet: the amount of funds a user has to spend at the blackjack table
 
     Returns:
-        wallet: the user's updated wallet value, reflecting the winnings / losses from the single game of blackjack
+        wallet: the user's updated wallet value, reflecting the winnings / losses from their single game of blackjack
     '''
 
     bet = place_bet(wallet)  # place your inital bet
@@ -254,15 +257,11 @@ def play_game(wallet) -> int:
     player = BlackjackHand()  # creating a random hand for the player
     dealer = BlackjackHand()  # creating a random hand for the dealer
 
-    print(
-        f'Your hand is the {card_to_text(player.hand[0])}' +
-        ' & ' +
-        f'{card_to_text(player.hand[1])}, with a value of {str(player.value())}')
+    print(f'Your hand is the {card_to_text(player.hand[0])}' + ' & ' + f'{card_to_text(player.hand[1])}, with a value of {str(player.value())}')
 
     print(f'Dealer showing {card_to_text(dealer.hand[0])}')
 
-    if doc_values[dealer.hand[0][:-1]] == 10 or dealer.hand[0][:- \
-        1] == 'A': # if the dealer shows a card worthy of checking for blackjack
+    if doc_values[dealer.hand[0][:-1]] == 10 or dealer.hand[0][:-1] == 'A': # if the dealer shows a card worthy of checking for blackjack
 
         # if you can still afford the insurance price, we will ask if you would
         # like insurance
@@ -275,11 +274,9 @@ def play_game(wallet) -> int:
                 insurance += (.5 * bet)  # funds applied to insurance
                 wallet -= insurance  # insurance taken out of wallet
 
-        if dealer.value() == 21 and player.value(
-        ) != 21:  # if the dealer has blackjack and the user does NOT
+        if dealer.value() == 21 and player.value() != 21:  # if the dealer has blackjack and the user does NOT
 
-            print(
-                f'Dealer flips ... their hidden card is a {card_to_text(dealer.hand[1])}, yielding a dealer hand value of {dealer.value()}')
+            print(f'Dealer flips ... their hidden card is a {card_to_text(dealer.hand[1])}, yielding a dealer hand value of {dealer.value()}')
             print(BLACKJACK_DEALER_MSG)  # informing user of loss
 
             # user gets 3x their insurance bet (if any); this includes inital
@@ -290,8 +287,7 @@ def play_game(wallet) -> int:
 
         elif dealer.value() == 21 and player.value() == 21:  # if both dealer and player have 21
 
-            print(
-                f'Dealer flips ... their hidden card is a {card_to_text(dealer.hand[1])}, yielding a dealer hand value of {dealer.value()}')
+            print(f'Dealer flips ... their hidden card is a {card_to_text(dealer.hand[1])}, yielding a dealer hand value of {dealer.value()}')
             print(BLACKJACK_PUSH_MSG)  # informing user of push
 
             # user gets their original bet back + 3x insurance (if any)
@@ -315,10 +311,8 @@ def play_game(wallet) -> int:
 
     while player.value() < 21 and stay == False and double_down == False:
 
-        if len(
-                player.hand) == 2 and (
-                wallet -
-                bet) >= 0:  # if you still have your initally dealt hand and can afford another bet, you are presented with
+        if len(player.hand) == 2 and (wallet - bet) >= 0:  
+            # if you still have your initally dealt hand and can afford another bet, you are presented with
             # a double down opportunity
 
             move = client_option_reader(
@@ -337,8 +331,7 @@ def play_game(wallet) -> int:
         elif move == 'S':  # if you are staying, set the stay variable to True to break loop
             stay = True
 
-        # if you are doubling down - no need to check if you can afford (done
-        # above)
+        # if you are doubling down - no need to check if you can afford (done above)
         elif move == 'D':
             wallet -= bet  # subtract an additional bet from the user's wallet
             hit_card = player.hit()  # take a hit
@@ -395,9 +388,9 @@ def user_credentials() -> (str, str):
     '''
 
     # user inputs their username
-    username = input('Please enter your username: ')
+    username = input(USERNAME_ENTRY_MSG)
     # user inputs their password
-    password = input('Please enter your password (case sensitive): ')
+    password = input(PASSWORD_ENTRY_MSG)
 
     username = username.strip()
     password = password.strip()
@@ -419,7 +412,7 @@ def user_login(username: str, password: str) -> list:
 
     try:
 
-        with open('blackjack_account_log.txt', 'r') as file:  # trying to open the account log
+        with open(ACCOUNT_LEDGER, 'r') as file:  # trying to open the account ledger
 
             for line in file:  # for each line in the file
 
@@ -452,9 +445,9 @@ def user_login(username: str, password: str) -> list:
 
         return None
 
-    except FileNotFoundError:  # if the file can't be found, there is no user base
+    except FileNotFoundError:  # if the file can't be found, there is no existing account ledger
 
-        print('No users found - please create a user account to get started!')
+        print(NO_USERS_FOUND_MSG)
 
         return None
 
@@ -470,7 +463,7 @@ def user_already_exists(user: str) -> bool:
         True: Whether the username already exists
     '''
 
-    with open('blackjack_account_log.txt', 'r') as file:  # open the file
+    with open(ACCOUNT_LEDGER, 'r') as file:  # open the file
 
         for line in file:  # iterate through each line
 
@@ -497,11 +490,11 @@ def new_user():
 
     account_info = f'{user},{pwd},0.00\n'
 
-    try:  # if the file exists
+    try:  # if the ledger exists
 
         username_exists = False
 
-        with open('blackjack_account_log.txt', 'r') as file:  # read the file
+        with open(ACCOUNT_LEDGER, 'r') as file:  # read the file
 
             if user_already_exists(user):  # if the username already exists
                 print(UNIQUE_USERNAME_VIOLATION_MSG)
@@ -509,33 +502,31 @@ def new_user():
 
         if username_exists == False:  # if the username does not exist
 
-            with open('blackjack_account_log.txt', 'a') as file:
+            with open(ACCOUNT_LEDGER, 'a') as file:
 
                 # append a new line with that account information
                 file.write(account_info)
                 print(f'Username: {user}')
                 print(f'Password: {pwd}')
-                print(f'Wallet: $0.00')
 
             return account_info.split(',')
 
-    except FileNotFoundError:  # if there is no user base established
+    except FileNotFoundError:  # if there is not an established ledger
 
         # write a new file with a new line to represent the user's account
         # information
-        with open('blackjack_account_log.txt', 'w') as file:
+        with open(ACCOUNT_LEDGER, 'w') as file:
 
             file.write(account_info)
             print(f'Username: {user}')
             print(f'Password: {pwd}')
-            print(f'Wallet: $0.00')
 
         return account_info.split(',')
 
 
 def update_wallet(account):
 
-    with open('blackjack_account_log.txt', 'r') as file:
+    with open(ACCOUNT_LEDGER, 'r') as file:
 
         lines = file.readlines()  # read lines in file
 
@@ -557,8 +548,8 @@ def update_wallet(account):
         counter += 1  # increment counter if not found
 
     # write new lines to file (likely need a better way to implement, instead
-    # of reading all lines to memory)
-    with open('blackjack_account_log.txt', 'w') as file:
+    # of reading all lines into memory)
+    with open(ACCOUNT_LEDGER, 'w') as file:
 
         file.writelines(lines)
 
@@ -569,7 +560,7 @@ def main():
     '''
 
     account = None  # this will be used to retrieve / update account information while the user is logged in
-    print('Welcome to Blackjack 1.0 !')
+    print(WELCOME_MSG)
 
     while True:  # continual loop until broken, via 'QUIT'
 
@@ -606,7 +597,7 @@ def main():
             play_again = True
             inital_hand = True  # placeholder to denote when the inital hand is dealt
 
-            print(f'Current wallet amount: ${wallet}')
+            print(f'Current wallet amount: ' + '${:,.2f}'.format(wallet))
 
             # while the user's wallet can cover the minimum and they want to
             # continue playing
@@ -634,15 +625,15 @@ def main():
                 if wallet > new_wallet:  # if the wallet amount before the game is greater than the wallet amount after the game
 
                     # inform the user of their losses
-                    print(f'You Lost: ${str(abs(wallet - new_wallet))}')
+                    print(f'You Lost: ' + '${:,.2f}'.format(abs(wallet - new_wallet)))
 
                 elif wallet < new_wallet:  # if the wallet amount before the game is less than the wallet amount after the game
 
                     # inform the user of their winnings
-                    print(f'You Won: ${str(abs(wallet - new_wallet))}')
+                    print(f'You Won: ' + '${:,.2f}'.format(abs(wallet - new_wallet)))
 
                 # inform the user of their wallet balance, post game
-                print(f'Current wallet amount: ${new_wallet}')
+                print(f'Current wallet amount: ' + '${:,.2f}'.format(new_wallet))
 
                 wallet = new_wallet  # update wallet to reflect the new wallet amount
 
@@ -651,7 +642,7 @@ def main():
             # losses / winnings from the session
             account[2] = str(wallet)
 
-            # updating the user's wallet amount in account history log
+            # updating the user's wallet amount in account ledger
             update_wallet(account)
 
         elif user_input == 'Login':
@@ -707,7 +698,7 @@ def main():
                 continue  # recycle through the loop
 
             # else, print the user's wallet balance
-            print(f'Your balance is ${account[2].strip()}')
+            print(f'Your balance is ' + '${:,.2f}'.format(float(account[2])))
 
         elif user_input == 'Help':   # print information about the available commands
 
@@ -725,7 +716,7 @@ def main():
 
             deposit = -1  # placeholder for deposit amount
 
-            print(f'Your current wallet amount is ${account[2].strip()}')
+            print(f'Your current wallet amount is ' + '${:,.2f}'.format(float(account[2])))
 
             while deposit == -1:
 
@@ -750,7 +741,7 @@ def main():
             update_wallet(account)
 
             print(
-                f'You sucessfully deposited ${deposit}, your wallet balance is ${wallet}')
+                f'You sucessfully deposited ' + '${:,.2f}'.format(deposit) + ', your wallet balance is ' + '${:,.2f}'.format(wallet))
 
         elif user_input == 'Quit':
 
