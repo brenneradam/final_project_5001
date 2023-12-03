@@ -128,7 +128,7 @@ Your hand is the J of Spades & 2 of Diamonds, with a value of 12
 Dealer showing J of Spades
 ```
 
-If the dealer is showing a 10 or A, you will be asked for insurance. In this example, we are not going to opt for insurance. Thankfully, they don't have blackjack!
+If the dealer is showing a card with a value of 10 or an A, you will be asked for insurance. In this example, we are not going to opt for insurance. Thankfully, they don't have blackjack!
 
 ```console
 Would you like insurance on your hand (Y / N)?: N
@@ -140,10 +140,9 @@ Now the user must choose to stay, hit, or double down. Lets play the hand out an
 ```console
 Would you like to Stay [S] / Hit [H] / Double Down [D]?: H
 You were dealt the 7 of Diamonds ... your hand value is now 19
-
 Would you like to Stay [S] / Hit [H]?: S
-Dealer flips ... their hidden card is a 2 of Spades, yielding a dealer hand value of 12
 
+Dealer flips ... their hidden card is a 2 of Spades, yielding a dealer hand value of 12
 Dealer was dealt the 2 of Diamonds ... their hand value is now 14
 Dealer was dealt the 5 of Spades ... their hand value is now 19
 
@@ -151,7 +150,7 @@ Push - nobody wins!
 Current wallet amount: $100.00
 ```
 
-Looks like a good old-fashioned push - once the hand finishes and our wallet amount is updated, we will be asked if we'd like to play another hand. If we opt to play another hand 'Y', another hand will begin. In this example, lets end the gameplay and return to the program menu.
+Looks like a good old-fashioned push - once the hand finishes and our wallet amount is updated, we will be asked if we'd like to play another hand. If we opt to play another hand, another hand will begin. In this example, lets end the gameplay and return to the program menu.
 
 ```console
 Want to play another hand (Y/N)?: N
@@ -168,7 +167,6 @@ Thanks for playing!
 ```
 
 ## Installation Instructions
-If we wanted to run this project locally, what would we need to do?  If we need to get API key's include that information, and also command line startup commands to execute the project. If you have a lot of dependencies, you can also include a requirements.txt file, but make sure to include that we need to run `pip install -r requirements.txt` or something similar.
 
 To run the program, execute the below at the command line.
 
@@ -176,26 +174,50 @@ To run the program, execute the below at the command line.
 python3 ./blackjack.py 
 ```
 
-Currently, the only package that is being used in this script is random, of which should already be included in python's standard library.
+Currently, the only package that is being used is 'random', of which you should already have installed, via python's standard library.
 
 ## Code Review
 Go over key aspects of code in this section. Both link to the file, include snippets in this report (make sure to use the [coding blocks](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#code)).  Grading wise, we are looking for that you understand your code and what you did. 
 
 ### Major Challenges
-Key aspects could include pieces that your struggled on and/or pieces that you are proud of and want to show off.
 
+Some major challenges I had when doing this project were as follows:
+
+* Although I decided to leave hand splitting out of scope (due to the difficulty of tracking multiple hands in a console game), that was not the original idea. In fact, I spent a lot of time trying to think about the solution for solving hand splitting; this came after I had a good chunk of the code base built out (and specifically, with the play game function). In all transparency, I was unable to think of the right way of implementing. I convinced myself that splitting is a naturally recursive problem, especially since someone can split multiple times in a single game (if they are lucky enough) AND since the rules of the game apply identically to each sub-hand. While I still don't think I cracked the code, I think part of the problem was how I designed the play_game function, as it should probably be abstracted a bit, since not all parts would apply to a sub hand (ex. the dealer checking for blackjack). However, even then, I found it to be awfully difficult (and confusing) on how to manage / present decisions to the user in a clear way WITHOUT a GUI.
+* I repeatedly went back and forth about how the code would be designed. Primarily, I wanted to focus on writing a program that was client driven, based on what the user inputs. However, I still have future ambitions to simulate different strategies, to test out which are more profitable than others. The debacle I kept running myself into is that I was not leaving much of a backdoor for me to repurpose this code for that secondary application. Importantly, nearly every function has input() and print() built into it, in addition to there being no way for someone to pass some kind of decision logic besides user-input decisions. I kept thinking to myself that if I designed it right, both applications would be easy to implement, but it really wasn't clear to me how I could accomplish that. Looking back, I probably could have benefited from taking more time to plan if I really wanted to perfect the abstracted design approach that supports multiple decision making implementations.
+
+Some things I am very proud of:
+
+* Dynamically calculating the hand value, as this was something I struggled with when I tried my hand at building that python script a long time ago. It's really awesome to see the aces dynamically adjust in value, based on how the hand is played out.
+* The integrated account management system. I thought that would be a really interesting challenge to add it is working out as intended.
 
 ## Example Runs
-Explain how you documented running the project, and what we need to look for in your repository (text output from the project, small videos, links to videos on youtube of you running it, etc)
+
+I would suggest watching the linked video called main.mov (visit https://northeastern-my.sharepoint.com/:f:/g/personal/brenner_a_northeastern_edu/El0-eZ3hlEVMhMCRab-6oe4BMJ18axY6wTg0gipSIXIxJA), where I spend some time navigating through the entire program, as if I was a user. Here, I generally follow the steps laid out in the guide (above), in addition to playing a few hands of blackjack and making sure that the results of the hand are as expected (spoiler - everything looks as expected). 
+
+You can find the outut from this session in main.txt (see test_logs in git repo); towards the bottom of main.txt, you will also find more output from another testing session that I conducted offline.
 
 ## Testing
-How did you test your code? What did you do to make sure your code was correct? If you wrote unit tests, you can link to them here. If you did run tests, make sure you document them as text files, and include them in your submission. 
 
-> _Make it easy for us to know you *ran the project* and *tested the project* before you submitted this report!_
+I tested the code in two ways: 
 
+1. Writing units tests for those functions that did not require user input. Please see blackjack_test.py, of which (in some areas) makes use of the provided user_login_test.txt file.
+2. Recording a series of videos where I voiced over the testing of each input-driven function; the output is provided in the submission (see test_logs folder in git repo). 
+
+See the following videos here (I suggest downloading them for clear resolution): https://northeastern-my.sharepoint.com/:f:/g/personal/brenner_a_northeastern_edu/El0-eZ3hlEVMhMCRab-6oe4BMJ18axY6wTg0gipSIXIxJA
+
+Please reach out to me if you have any trouble gaining access / downloading from the linked onedrive folder.
 
 ## Missing Features / What's Next
-Focus on what you didn't get to do, and what you would do if you had more time, or things you would implement in the future. 
+
+Below are some of the things I would like to explore, given more time to work on this project:
+
+* Create a GUI so that the game is more visually appealing, instead of having to keep up with a bunch of printed statements to figure out what is going on. This would of course open the door for easier hand splitting for the user.
+* Integrate a better method of storing account information than just comma-seperated values in a text file. This option was chosen because it was learned throughout the semester, and so I thought it was appropriate to make use / convery my understanding of this approach. That said, I imagine it would make sense to create a database and read/write to this database when accounts are either created / needed to be fetched. I believe this would make for a more streamlined approach, not to mention making it easier to obtain account information in other scripts / environments.
+* Store gameplay history, so that user's can see what hands they've played, how they played them, and other metadata elements surrounding the result.
+* Refactor / add functionality to simulate gameplay based on different strategies
+* Create an actual paywall within the 'Deposit' area, so that users can really load their own wallets (would be cool, but probably illegal). Also - would want a function to withdrawl your winnings (if any).
+* AI generated hints when playing, in case the user is unsure
 
 ## Final Reflection
 Write at least a paragraph about your experience in this course. What did you learn? What do you need to do to learn more? Key takeaways? etc.
