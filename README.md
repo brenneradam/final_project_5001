@@ -54,16 +54,13 @@ Given the results of each hand (and the decisions that were made along the way),
 ## Guide
 How do we run your project? What should we do to see it in action? - Note this isn't installing, this is actual use of the project.. If it is a website, you can point towards the gui, use screenshots, etc talking about features. 
 
-To run the project, you will need to execute blackjack.py at the command line.
+When the program begins, you will be presented with a welcome message and a reserved line for user input.
 
 ```console
-python3 ./blackjack.py 
-
 Welcome to Blackjack 1.0 !
 What would you like to do (type 'Help' for more info)?:
 ```
-
-Once executed, the program will await your input, of which can be any of the accepted commands (run 'Help' for information on what commands are acceptable).
+The program will await your input, of which can be any of the accepted commands (run 'Help' for information on what commands are acceptable).
 
 ```console
 What would you like to do (type 'Help' for more info)?: Help
@@ -131,14 +128,14 @@ Your hand is the J of Spades & 2 of Diamonds, with a value of 12
 Dealer showing J of Spades
 ```
 
-If the dealer is showing a 10 or A, you will be asked for insurance. In this example, we are going to not opt for the insurance. Thankfully, they don't have blackjack!
+If the dealer is showing a 10 or A, you will be asked for insurance. In this example, we are not going to opt for insurance. Thankfully, they don't have blackjack!
 
 ```console
 Would you like insurance on your hand (Y / N)?: N
 Dealer checked for Blackjack ... Nobody's Home!
 ```
 
-Now, I must choose to stay, hit, or double down. Lets play the hand out and see what happens.
+Now the user must choose to stay, hit, or double down. Lets play the hand out and see what happens. Once you finish your hand, the dealer will take care of the rest!
 
 ```console
 Would you like to Stay [S] / Hit [H] / Double Down [D]?: H
@@ -160,7 +157,7 @@ Looks like a good old-fashioned push - once the hand finishes and our wallet amo
 Want to play another hand (Y/N)?: N
 ```
 
-To logout, go ahead enter the 'Logout' command. To terminate the program, go ahead and enter the 'Quit' program.
+To logout, enter the 'Logout' command. To then terminate the program, enter the 'Quit' command.
 
 ```console
 What would you like to do (type 'Help' for more info)?: Logout
@@ -172,6 +169,14 @@ Thanks for playing!
 
 ## Installation Instructions
 If we wanted to run this project locally, what would we need to do?  If we need to get API key's include that information, and also command line startup commands to execute the project. If you have a lot of dependencies, you can also include a requirements.txt file, but make sure to include that we need to run `pip install -r requirements.txt` or something similar.
+
+To run the program, execute the below at the command line.
+
+```console
+python3 ./blackjack.py 
+```
+
+Currently, the only package that is being used in this script is random, of which should already be included in python's standard library.
 
 ## Code Review
 Go over key aspects of code in this section. Both link to the file, include snippets in this report (make sure to use the [coding blocks](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#code)).  Grading wise, we are looking for that you understand your code and what you did. 
