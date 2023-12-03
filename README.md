@@ -52,7 +52,6 @@ Once the player finishes their hand, the dealer will automatically play their ha
 Given the results of each hand (and the decisions that were made along the way), the program will inform the user how much money they won / lost, and will provide them with their updated wallet amount after each hand.
 
 ## Guide
-How do we run your project? What should we do to see it in action? - Note this isn't installing, this is actual use of the project.. If it is a website, you can point towards the gui, use screenshots, etc talking about features. 
 
 When the program begins, you will be presented with a welcome message and a reserved line for user input.
 
