@@ -54,7 +54,7 @@ Given the results of each hand (and the decisions that were made along the way),
 ## Guide
 How do we run your project? What should we do to see it in action? - Note this isn't installing, this is actual use of the project.. If it is a website, you can point towards the gui, use screenshots, etc talking about features. 
 
-To run the project, you will need to execute blackjack.py at the command line
+To run the project, you will need to execute blackjack.py at the command line.
 
 ```console
 python3 ./blackjack.py 
@@ -79,16 +79,102 @@ Balance -> Curious to know how much you lost? Get a quick update on the balance 
 Quit -> End the program.
 ```
 
+To play blackjack, a user account is required.  To create a user account, enter the 'Create' command and fill out the prompt.
+
+```console
+What would you like to do (type 'Help' for more info)?: Create
+
+Please enter your username: newuser1
+Please enter your password (case sensitive): thisgamerocks!
+
+Your account has been sucessfully created!
+Username: newuser1
+Password: thisgamerocks!
+```
+
+No need to login - you already are once your account is created. Now lets check your wallet balance.
+
+```console
+What would you like to do (type 'Help' for more info)?: Balance
+
+Your balance is $0.00
+```
+
+Looks like you will need to deposit some $; to do that, enter the 'Deposit' command. Once prompted, enter the amount you'd like to deposit (must be a whole number, with no formatting).
+
+```console
+What would you like to do (type 'Help' for more info)?: Deposit
+
+Your current wallet amount is $0.00
+How much would you like to deposit?: 100
+
+You sucessfully deposited $100.00, your wallet balance is $100.00
+```
+
+If we check your balance again ...
+
+```console
+What would you like to do (type 'Help' for more info)?: Balance
+
+Your balance is $100.00
+```
+
+Great! Now you are ready to play. Go ahead and start you game, place your bet (look out for the posted minimum), and win some money!
+
+```console
+What would you like to do (type 'Help' for more info)?: Play
+
+Current wallet amount: $100.00
+Place your bet (min. $25): 25
+
+Your hand is the J of Spades & 2 of Diamonds, with a value of 12
+Dealer showing J of Spades
+```
+
+If the dealer is showing a 10 or A, you will be asked for insurance. In this example, we are going to not opt for the insurance. Thankfully, they don't have blackjack!
+
+```console
+Would you like insurance on your hand (Y / N)?: N
+Dealer checked for Blackjack ... Nobody's Home!
+```
+
+Now, I must choose to stay, hit, or double down. Lets play the hand out and see what happens.
+
+```console
+Would you like to Stay [S] / Hit [H] / Double Down [D]?: H
+You were dealt the 7 of Diamonds ... your hand value is now 19
+
+Would you like to Stay [S] / Hit [H]?: S
+Dealer flips ... their hidden card is a 2 of Spades, yielding a dealer hand value of 12
+
+Dealer was dealt the 2 of Diamonds ... their hand value is now 14
+Dealer was dealt the 5 of Spades ... their hand value is now 19
+
+Push - nobody wins!
+Current wallet amount: $100.00
+```
+
+Looks like a good old-fashioned push - once the hand finishes and our wallet amount is updated, we will be asked if we'd like to play another hand. If we opt to play another hand 'Y', another hand will begin. In this example, lets end the gameplay and return to the program menu.
+
+```console
+Want to play another hand (Y/N)?: N
+```
+
+To logout, go ahead enter the 'Logout' command. To terminate the program, go ahead and enter the 'Quit' program.
+
+```console
+What would you like to do (type 'Help' for more info)?: Logout
+Goodbye newuser1!
+
+What would you like to do (type 'Help' for more info)?: Quit
+Thanks for playing!
+```
+
 ## Installation Instructions
 If we wanted to run this project locally, what would we need to do?  If we need to get API key's include that information, and also command line startup commands to execute the project. If you have a lot of dependencies, you can also include a requirements.txt file, but make sure to include that we need to run `pip install -r requirements.txt` or something similar.
 
 ## Code Review
 Go over key aspects of code in this section. Both link to the file, include snippets in this report (make sure to use the [coding blocks](https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet#code)).  Grading wise, we are looking for that you understand your code and what you did. 
-
-```python
-s = "Python syntax highlighting"
-print s
-```
 
 ### Major Challenges
 Key aspects could include pieces that your struggled on and/or pieces that you are proud of and want to show off.
