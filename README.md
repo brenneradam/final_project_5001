@@ -54,16 +54,16 @@ Given the results of each hand (and the decisions that were made along the way),
 ## Guide
 How do we run your project? What should we do to see it in action? - Note this isn't installing, this is actual use of the project.. If it is a website, you can point towards the gui, use screenshots, etc talking about features. 
 
-To run the project, you will need to execute blackjack.py at the command line; once executed, the program will appear at the console, awaiting your input, of which can be any of the accepted commands (run 'Help' for information on what commands are acceptable).
+To run the project, you will need to execute blackjack.py at the command line
 
 ```console
 python3 ./blackjack.py 
-```
 
-```console
 Welcome to Blackjack 1.0 !
 What would you like to do (type 'Help' for more info)?:
 ```
+
+Once executed, the program will await your input, of which can be any of the accepted commands (run 'Help' for information on what commands are acceptable).
 
 ```console
 What would you like to do (type 'Help' for more info)?: Help
