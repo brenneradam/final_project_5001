@@ -36,6 +36,7 @@ WELCOME_MSG = 'Welcome to Blackjack 1.0 !'
 NO_USERS_FOUND_MSG = 'Username not found - please create an account to get started!'
 USERNAME_ENTRY_MSG = 'Please enter your username: '
 PASSWORD_ENTRY_MSG = 'Please enter your password (case sensitive): '
+ACCOUNT_CREATED_MSG = 'Your account has been sucessfully created!'
 HELP_MSG = '''\nType any of the following options:\n
 Create -> Setup your account by establishing a username and password.
 Login -> You know the drill. Enter your username and password to access your wallet. (Hint: Required to Play)
@@ -454,7 +455,7 @@ def user_login(username: str, password: str, ledger: str = ACCOUNT_LEDGER) -> li
 
 def user_already_exists(user: str, ledger: str = ACCOUNT_LEDGER) -> bool:
     '''
-    Check's to see whether a username is already in existence.
+    Checks to see whether a username is already in existence.
 
     Arguments:
         user: a username
@@ -506,6 +507,7 @@ def new_user():
 
                 # append a new line with that account information
                 file.write(account_info)
+                print(ACCOUNT_CREATED_MSG)
                 print(f'Username: {user}')
                 print(f'Password: {pwd}')
 
@@ -518,6 +520,7 @@ def new_user():
         with open(ACCOUNT_LEDGER, 'w') as file:
 
             file.write(account_info)
+            print(ACCOUNT_CREATED_MSG)
             print(f'Username: {user}')
             print(f'Password: {pwd}')
 

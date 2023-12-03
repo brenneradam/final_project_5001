@@ -1,0 +1,455 @@
+Welcome to Blackjack 1.0 !
+What would you like to do (type 'Help' for more info)?: ibevfrifbv
+Invalid Input: Please Try Again!
+What would you like to do (type 'Help' for more info)?: Help
+
+Type any of the following options:
+
+Create -> Setup your account by establishing a username and password.
+Login -> You know the drill. Enter your username and password to access your wallet. (Hint: Required to Play)
+Play -> Take a seat at the blackjack table. (Hint: Don't forget to load your wallet)
+Logout -> Going so soon? We hope to see you again!
+Deposit -> Loading your wallet. (Hint: Login Required)
+Balance -> Curious to know how much you lost? Get a quick update on the balance of your wallet. (Hint: Login Required)
+Quit -> End the program.
+
+What would you like to do (type 'Help' for more info)?: Create
+Please enter your username: test123
+Please enter your password (case sensitive): test123
+Username: test123
+Password: test123
+What would you like to do (type 'Help' for more info)?: Balance
+Your balance is $0.00
+What would you like to do (type 'Help' for more info)?: Deposit
+Your current wallet amount is $0.00
+How much would you like to deposit?: 1000
+You sucessfully deposited $1,000.00, your wallet balance is $1,000.00
+What would you like to do (type 'Help' for more info)?: Balance
+Your balance is $1,000.00
+What would you like to do (type 'Help' for more info)?: Logout
+Goodbye test123!
+What would you like to do (type 'Help' for more info)?: Login
+Please enter your username: test123
+Please enter your password (case sensitive): test123
+Welcome test123, you are now logged in!
+What would you like to do (type 'Help' for more info)?: Balance
+Your balance is $1,000.00
+What would you like to do (type 'Help' for more info)?: Play
+Current wallet amount: $1,000.00
+Place your bet (min. $25): 100
+Your hand is the A of Diamonds & 3 of Clubs, with a value of 14
+Dealer showing Q of Spades
+Would you like insurance on your hand (Y / N)?: N
+Dealer checked for Blackjack ... Nobody's Home!
+Would you like to Stay [S] / Hit [H] / Double Down [D]?: H
+You were dealt the 3 of Hearts ... your hand value is now 17
+Would you like to Stay [S] / Hit [H]?: S
+Dealer flips ... their hidden card is a 8 of Spades, yielding a dealer hand value of 18
+Dealer wins!
+You Lost: $100.00
+Current wallet amount: $900.00
+Want to play another hand (Y/N)?: Y
+Place your bet (min. $25): 25
+Your hand is the 3 of Clubs & 3 of Clubs, with a value of 6
+Dealer showing Q of Hearts
+Would you like insurance on your hand (Y / N)?: Y
+Dealer checked for Blackjack ... Nobody's Home!
+Would you like to Stay [S] / Hit [H] / Double Down [D]?: D
+Doubled Down! You were dealt the 7 of Hearts ... your hand value is now 13
+Dealer flips ... their hidden card is a 4 of Diamonds, yielding a dealer hand value of 14
+Dealer was dealt the 7 of Clubs ... their hand value is now 21
+Dealer wins!
+You Lost: $62.50
+Current wallet amount: $837.50
+Want to play another hand (Y/N)?: Y
+Place your bet (min. $25): 25
+Your hand is the 3 of Hearts & 7 of Clubs, with a value of 10
+Dealer showing 3 of Diamonds
+Would you like to Stay [S] / Hit [H] / Double Down [D]?: D
+Doubled Down! You were dealt the 2 of Diamonds ... your hand value is now 12
+Dealer flips ... their hidden card is a J of Hearts, yielding a dealer hand value of 13
+Dealer was dealt the 4 of Hearts ... their hand value is now 17
+Dealer wins!
+You Lost: $50.00
+Current wallet amount: $787.50
+Want to play another hand (Y/N)?: Y
+Place your bet (min. $25): 25
+Your hand is the 2 of Clubs & 6 of Diamonds, with a value of 8
+Dealer showing 2 of Spades
+Would you like to Stay [S] / Hit [H] / Double Down [D]?: S
+Dealer flips ... their hidden card is a 8 of Spades, yielding a dealer hand value of 10
+Dealer was dealt the 9 of Clubs ... their hand value is now 19
+Dealer wins!
+You Lost: $25.00
+Current wallet amount: $762.50
+Want to play another hand (Y/N)?: N
+What would you like to do (type 'Help' for more info)?: Balance
+Your balance is $762.50
+What would you like to do (type 'Help' for more info)?: Login 
+test123 already logged in. Logout required!
+What would you like to do (type 'Help' for more info)?: Create
+Logout Required!
+What would you like to do (type 'Help' for more info)?: Logout
+Goodbye test123!
+What would you like to do (type 'Help' for more info)?: Balance
+Login Required!
+What would you like to do (type 'Help' for more info)?: Create
+Please enter your username: test123
+Please enter your password (case sensitive): rhfo9u3brv
+Username already in use - please specify a unique username!
+What would you like to do (type 'Help' for more info)?: Login
+Please enter your username: test123
+Please enter your password (case sensitive): jenvie
+Invalid password!
+What would you like to do (type 'Help' for more info)?: Quit
+Thanks for playing!
+adambrenner@Adams-MBP Final Project %  cd /Users/adambrenner/Documents/CS\ 5001/Final\ Project ; /usr/bin/env /usr/local/bin/python3 /Users/adambrenner/.vscode/extensions/ms-python.python-2023.14.0/pythonFiles/lib/python/debugpy/adapter/../../debugpy/launcher 55441 -- /Users/adambrenner/Documents/CS\ 5001/Final\ Project/blackja
+ck.py 
+Welcome to Blackjack 1.0 !
+What would you like to do (type 'Help' for more info)?: Login
+Please enter your username: test123
+Please enter your password (case sensitive): test123
+Welcome test123, you are now logged in!
+What would you like to do (type 'Help' for more info)?: Balance
+Your balance is $762.50
+
+
+-- BELOW IS ADDITIONAL TESTING FOR MAIN() OF BLACKJACK.py
+
+Welcome to Blackjack 1.0 !
+What would you like to do (type 'Help' for more info)?: Login
+Please enter your username: abren123
+Please enter your password (case sensitive): abc
+We can't find an account under the provided username: abren123 - please create an account to get started!
+What would you like to do (type 'Help' for more info)?: Login
+Please enter your username: abren
+Please enter your password (case sensitive): 123
+Welcome abren, you are now logged in!
+What would you like to do (type 'Help' for more info)?: Balance
+Your balance is $75.00
+What would you like to do (type 'Help' for more info)?: Depsoit
+Invalid Input: Please Try Again!
+What would you like to do (type 'Help' for more info)?: Deposit
+Your current wallet amount is $75.00
+How much would you like to deposit?: 100000
+You sucessfully deposited $100,000.00, your wallet balance is $100,075.00
+What would you like to do (type 'Help' for more info)?: Balance
+Your balance is $100,075.00
+What would you like to do (type 'Help' for more info)?: Play
+Current wallet amount: $100,075.00
+Place your bet (min. $25): 1000
+Your hand is the J of Hearts & 10 of Diamonds, with a value of 20
+Dealer showing Q of Clubs
+Would you like insurance on your hand (Y / N)?: N
+Dealer checked for Blackjack ... Nobody's Home!
+Would you like to Stay [S] / Hit [H] / Double Down [D]?: S
+Dealer flips ... their hidden card is a 6 of Diamonds, yielding a dealer hand value of 16
+Dealer was dealt the 4 of Diamonds ... their hand value is now 20
+Push - nobody wins!
+Current wallet amount: $100,075.00
+Want to play another hand (Y/N)?: Y
+Place your bet (min. $25): 25
+Your hand is the 2 of Clubs & 3 of Spades, with a value of 5
+Dealer showing 8 of Hearts
+Would you like to Stay [S] / Hit [H] / Double Down [D]?: H
+You were dealt the Q of Diamonds ... your hand value is now 15
+Would you like to Stay [S] / Hit [H]?: H
+You were dealt the 5 of Diamonds ... your hand value is now 20
+Would you like to Stay [S] / Hit [H]?: S
+Dealer flips ... their hidden card is a K of Hearts, yielding a dealer hand value of 18
+Player wins!
+You Won: $25.00
+Current wallet amount: $100,100.00
+Want to play another hand (Y/N)?: 10 
+Invalid Input: Please Try Again!
+Want to play another hand (Y/N)?: Y
+Place your bet (min. $25): 100
+Your hand is the 3 of Diamonds & 10 of Hearts, with a value of 13
+Dealer showing 4 of Spades
+Would you like to Stay [S] / Hit [H] / Double Down [D]?: S
+Dealer flips ... their hidden card is a 6 of Spades, yielding a dealer hand value of 10
+Dealer was dealt the 8 of Diamonds ... their hand value is now 18
+Dealer wins!
+You Lost: $100.00
+Current wallet amount: $100,000.00
+Want to play another hand (Y/N)?: Y
+Place your bet (min. $25): 5000 
+Your hand is the 9 of Clubs & 4 of Diamonds, with a value of 13
+Dealer showing 5 of Hearts
+Would you like to Stay [S] / Hit [H] / Double Down [D]?: S
+Dealer flips ... their hidden card is a J of Diamonds, yielding a dealer hand value of 15
+Dealer was dealt the 7 of Spades ... their hand value is now 22
+Dealer Busted - You Win!
+You Won: $5,000.00
+Current wallet amount: $105,000.00
+Want to play another hand (Y/N)?: Y
+Place your bet (min. $25): 10000/
+Invalid Input: Please Try Again!
+Place your bet (min. $25): 10000
+Your hand is the 10 of Diamonds & 5 of Spades, with a value of 15
+Dealer showing J of Clubs
+Would you like insurance on your hand (Y / N)?: N
+Dealer checked for Blackjack ... Nobody's Home!
+Would you like to Stay [S] / Hit [H] / Double Down [D]?: H
+You were dealt the 8 of Spades ... your hand value is now 23
+You busted with 23
+You Lost: $10,000.00
+Current wallet amount: $95,000.00
+Want to play another hand (Y/N)?: Y    
+Place your bet (min. $25): 100
+Your hand is the A of Spades & 9 of Clubs, with a value of 20
+Dealer showing 6 of Diamonds
+Would you like to Stay [S] / Hit [H] / Double Down [D]?: S
+Dealer flips ... their hidden card is a 4 of Spades, yielding a dealer hand value of 10
+Dealer was dealt the 3 of Diamonds ... their hand value is now 13
+Dealer was dealt the 4 of Diamonds ... their hand value is now 17
+Player wins!
+You Won: $100.00
+Current wallet amount: $95,100.00
+Want to play another hand (Y/N)?: Y  
+Place your bet (min. $25): 100
+Your hand is the A of Clubs & 6 of Diamonds, with a value of 17
+Dealer showing 5 of Hearts
+Would you like to Stay [S] / Hit [H] / Double Down [D]?: S
+Dealer flips ... their hidden card is a A of Spades, yielding a dealer hand value of 16
+Dealer was dealt the A of Clubs ... their hand value is now 17
+Push - nobody wins!
+Current wallet amount: $95,100.00
+Want to play another hand (Y/N)?: Y
+Place your bet (min. $25): 100
+Your hand is the 3 of Spades & J of Hearts, with a value of 13
+Dealer showing 9 of Diamonds
+Would you like to Stay [S] / Hit [H] / Double Down [D]?: H
+You were dealt the 4 of Spades ... your hand value is now 17
+Would you like to Stay [S] / Hit [H]?: S
+Dealer flips ... their hidden card is a 10 of Diamonds, yielding a dealer hand value of 19
+Dealer wins!
+You Lost: $100.00
+Current wallet amount: $95,000.00
+Want to play another hand (Y/N)?: Y
+Place your bet (min. $25): 5000
+Your hand is the 4 of Clubs & 10 of Diamonds, with a value of 14
+Dealer showing 7 of Diamonds
+Would you like to Stay [S] / Hit [H] / Double Down [D]?: H
+You were dealt the K of Hearts ... your hand value is now 24
+You busted with 24
+You Lost: $5,000.00
+Current wallet amount: $90,000.00
+Want to play another hand (Y/N)?: Y
+Place your bet (min. $25): 15000
+Your hand is the J of Diamonds & 8 of Diamonds, with a value of 18
+Dealer showing 4 of Diamonds
+Would you like to Stay [S] / Hit [H] / Double Down [D]?: S
+Dealer flips ... their hidden card is a 4 of Spades, yielding a dealer hand value of 8
+Dealer was dealt the 8 of Diamonds ... their hand value is now 16
+Dealer was dealt the 7 of Spades ... their hand value is now 23
+Dealer Busted - You Win!
+You Won: $15,000.00
+Current wallet amount: $105,000.00
+Want to play another hand (Y/N)?: Y
+Place your bet (min. $25): 5000
+Your hand is the K of Spades & 4 of Diamonds, with a value of 14
+Dealer showing 9 of Spades
+Would you like to Stay [S] / Hit [H] / Double Down [D]?: H
+You were dealt the 5 of Hearts ... your hand value is now 19
+Would you like to Stay [S] / Hit [H]?: S
+Dealer flips ... their hidden card is a J of Diamonds, yielding a dealer hand value of 19
+Push - nobody wins!
+Current wallet amount: $105,000.00
+Want to play another hand (Y/N)?: Y
+Place your bet (min. $25): 5000
+Your hand is the Q of Diamonds & 6 of Clubs, with a value of 16
+Dealer showing 4 of Hearts
+Would you like to Stay [S] / Hit [H] / Double Down [D]?: S
+Dealer flips ... their hidden card is a 3 of Hearts, yielding a dealer hand value of 7
+Dealer was dealt the 8 of Hearts ... their hand value is now 15
+Dealer was dealt the 7 of Diamonds ... their hand value is now 22
+Dealer Busted - You Win!
+You Won: $5,000.00
+Current wallet amount: $110,000.00
+Want to play another hand (Y/N)?: Y
+Place your bet (min. $25): 10000
+Your hand is the 8 of Spades & J of Spades, with a value of 18
+Dealer showing J of Spades
+Would you like insurance on your hand (Y / N)?: N
+Dealer checked for Blackjack ... Nobody's Home!
+Would you like to Stay [S] / Hit [H] / Double Down [D]?: S
+Dealer flips ... their hidden card is a Q of Clubs, yielding a dealer hand value of 20
+Dealer wins!
+You Lost: $10,000.00
+Current wallet amount: $100,000.00
+Want to play another hand (Y/N)?: Y
+Place your bet (min. $25): 50000
+Your hand is the 10 of Clubs & 10 of Spades, with a value of 20
+Dealer showing 5 of Hearts
+Would you like to Stay [S] / Hit [H] / Double Down [D]?: S
+Dealer flips ... their hidden card is a 2 of Hearts, yielding a dealer hand value of 7
+Dealer was dealt the 2 of Hearts ... their hand value is now 9
+Dealer was dealt the 7 of Hearts ... their hand value is now 16
+Dealer was dealt the 5 of Spades ... their hand value is now 21
+Dealer wins!
+You Lost: $50,000.00
+Current wallet amount: $50,000.00
+Want to play another hand (Y/N)?: Y
+Place your bet (min. $25): 25000
+Your hand is the 2 of Hearts & 7 of Diamonds, with a value of 9
+Dealer showing 4 of Spades
+Would you like to Stay [S] / Hit [H] / Double Down [D]?: D
+Doubled Down! You were dealt the 7 of Spades ... your hand value is now 16
+Dealer flips ... their hidden card is a 7 of Diamonds, yielding a dealer hand value of 11
+Dealer was dealt the K of Diamonds ... their hand value is now 21
+Dealer wins!
+You Lost: $50,000.00
+Current wallet amount: $0.00
+What would you like to do (type 'Help' for more info)?: Deposit
+Your current wallet amount is $0.00
+How much would you like to deposit?: 100000
+You sucessfully deposited $100,000.00, your wallet balance is $100,000.00
+What would you like to do (type 'Help' for more info)?: Balance
+Your balance is $100,000.00
+What would you like to do (type 'Help' for more info)?: Play
+Current wallet amount: $100,000.00
+Place your bet (min. $25): 25000
+Your hand is the 8 of Diamonds & A of Spades, with a value of 19
+Dealer showing 10 of Spades
+Would you like insurance on your hand (Y / N)?: N
+Dealer checked for Blackjack ... Nobody's Home!
+Would you like to Stay [S] / Hit [H] / Double Down [D]?: S
+Dealer flips ... their hidden card is a 7 of Spades, yielding a dealer hand value of 17
+Player wins!
+You Won: $25,000.00
+Current wallet amount: $125,000.00
+Want to play another hand (Y/N)?: Y
+Place your bet (min. $25): 25000
+Your hand is the 7 of Spades & 5 of Diamonds, with a value of 12
+Dealer showing 2 of Clubs
+Would you like to Stay [S] / Hit [H] / Double Down [D]?: H
+You were dealt the 5 of Diamonds ... your hand value is now 17
+Would you like to Stay [S] / Hit [H]?: S
+Dealer flips ... their hidden card is a K of Diamonds, yielding a dealer hand value of 12
+Dealer was dealt the 9 of Diamonds ... their hand value is now 21
+Dealer wins!
+You Lost: $25,000.00
+Current wallet amount: $100,000.00
+Want to play another hand (Y/N)?: Y
+Place your bet (min. $25): 95000
+Your hand is the 2 of Spades & 6 of Hearts, with a value of 8
+Dealer showing 4 of Hearts
+Would you like to Stay [S] / Hit [H]?: H
+You were dealt the 2 of Clubs ... your hand value is now 10
+Would you like to Stay [S] / Hit [H]?: H
+You were dealt the A of Hearts ... your hand value is now 21
+Dealer flips ... their hidden card is a 8 of Hearts, yielding a dealer hand value of 12
+Dealer was dealt the 3 of Hearts ... their hand value is now 15
+Dealer was dealt the A of Spades ... their hand value is now 16
+Dealer was dealt the 6 of Hearts ... their hand value is now 22
+Dealer Busted - You Win!
+You Won: $95,000.00
+Current wallet amount: $195,000.00
+Want to play another hand (Y/N)?: Y
+Place your bet (min. $25): 5000
+Your hand is the K of Hearts & A of Diamonds, with a value of 21
+Dealer showing 5 of Spades
+Blackjack - You Win!
+You Won: $7,500.00
+Current wallet amount: $202,500.00
+Want to play another hand (Y/N)?: Y
+Place your bet (min. $25): 2500
+Your hand is the 7 of Diamonds & J of Diamonds, with a value of 17
+Dealer showing 5 of Diamonds
+Would you like to Stay [S] / Hit [H] / Double Down [D]?: S
+Dealer flips ... their hidden card is a 7 of Diamonds, yielding a dealer hand value of 12
+Dealer was dealt the 7 of Spades ... their hand value is now 19
+Dealer wins!
+You Lost: $2,500.00
+Current wallet amount: $200,000.00
+Want to play another hand (Y/N)?: 25000
+Invalid Input: Please Try Again!
+Want to play another hand (Y/N)?: Y
+Place your bet (min. $25): 2500
+Your hand is the A of Spades & 4 of Clubs, with a value of 15
+Dealer showing 8 of Clubs
+Would you like to Stay [S] / Hit [H] / Double Down [D]?: H
+You were dealt the 10 of Spades ... your hand value is now 15
+Would you like to Stay [S] / Hit [H]?: H
+You were dealt the 2 of Hearts ... your hand value is now 17
+Would you like to Stay [S] / Hit [H]?: S
+Dealer flips ... their hidden card is a 3 of Spades, yielding a dealer hand value of 11
+Dealer was dealt the 8 of Diamonds ... their hand value is now 19
+Dealer wins!
+You Lost: $2,500.00
+Current wallet amount: $197,500.00
+Want to play another hand (Y/N)?: Y
+Place your bet (min. $25): 7500
+Your hand is the 7 of Diamonds & 4 of Clubs, with a value of 11
+Dealer showing 5 of Spades
+Would you like to Stay [S] / Hit [H] / Double Down [D]?: D
+Doubled Down! You were dealt the 10 of Diamonds ... your hand value is now 21
+Dealer flips ... their hidden card is a 9 of Spades, yielding a dealer hand value of 14
+Dealer was dealt the 5 of Hearts ... their hand value is now 19
+Player wins!
+You Won: $15,000.00
+Current wallet amount: $212,500.00
+Want to play another hand (Y/N)?: Y
+Place your bet (min. $25): 12500
+Your hand is the 7 of Hearts & 8 of Diamonds, with a value of 15
+Dealer showing 3 of Clubs
+Would you like to Stay [S] / Hit [H] / Double Down [D]?: S
+Dealer flips ... their hidden card is a J of Hearts, yielding a dealer hand value of 13
+Dealer was dealt the 3 of Hearts ... their hand value is now 16
+Dealer was dealt the 10 of Hearts ... their hand value is now 26
+Dealer Busted - You Win!
+You Won: $12,500.00
+Current wallet amount: $225,000.00
+Want to play another hand (Y/N)?: Y    
+Place your bet (min. $25): 25000
+Your hand is the 10 of Diamonds & Q of Clubs, with a value of 20
+Dealer showing 3 of Spades
+Would you like to Stay [S] / Hit [H] / Double Down [D]?: S
+Dealer flips ... their hidden card is a 5 of Spades, yielding a dealer hand value of 8
+Dealer was dealt the 6 of Diamonds ... their hand value is now 14
+Dealer was dealt the 2 of Diamonds ... their hand value is now 16
+Dealer was dealt the K of Spades ... their hand value is now 26
+Dealer Busted - You Win!
+You Won: $25,000.00
+Current wallet amount: $250,000.00
+Want to play another hand (Y/N)?: Y
+Place your bet (min. $25): 50000
+Your hand is the 9 of Clubs & A of Diamonds, with a value of 20
+Dealer showing 6 of Hearts
+Would you like to Stay [S] / Hit [H] / Double Down [D]?: S
+Dealer flips ... their hidden card is a A of Spades, yielding a dealer hand value of 17
+Player wins!
+You Won: $50,000.00
+Current wallet amount: $300,000.00
+Want to play another hand (Y/N)?: Y
+Place your bet (min. $25): 300001
+Insufficent Funds: Please visit menu to deposit more funds.
+Place your bet (min. $25): 299999
+Your hand is the Q of Spades & 6 of Hearts, with a value of 16
+Dealer showing 3 of Clubs
+Would you like to Stay [S] / Hit [H]?: S
+Dealer flips ... their hidden card is a 10 of Diamonds, yielding a dealer hand value of 13
+Dealer was dealt the 4 of Clubs ... their hand value is now 17
+Dealer wins!
+You Lost: $299,999.00
+Current wallet amount: $1.00
+What would you like to do (type 'Help' for more info)?: Play
+Please load funds to your wallet!
+What would you like to do (type 'Help' for more info)?: Deposit
+Your current wallet amount is $1.00
+How much would you like to deposit?: 24
+You sucessfully deposited $24.00, your wallet balance is $25.00
+What would you like to do (type 'Help' for more info)?: Play
+Current wallet amount: $25.00
+Place your bet (min. $25): 25
+Your hand is the J of Clubs & J of Clubs, with a value of 20
+Dealer showing A of Diamonds
+Dealer flips ... their hidden card is a Q of Clubs, yielding a dealer hand value of 21
+Blackjack - Dealer Wins :(
+You Lost: $25.00
+Current wallet amount: $0.00
+What would you like to do (type 'Help' for more info)?: Logout
+Goodbye abren!
+What would you like to do (type 'Help' for more info)?: Quit
+Thanks for playing!
