@@ -5,10 +5,7 @@
 * Semester: FALL 2023
 * Course: CS 5001
 
-
-
 ## Description
-General overview of the project, what you did, why you did it, etc.
 
 This project is intended to simulate single-hand blackjack against a live dealer, and is inspired by the online casino experience. This is built as a console game, without any GUI.
 
@@ -17,7 +14,6 @@ I chose this as my project because I have always been a fan of Blackjack. More i
 Fast forward to today, where I feel more confident in my abilities to pick up where I left of. However, I thought it made more sense to focus this project's scope on replicating the experience of playing Blackjack in itself, as an initial way to prove my skills (considering the complexities associated with the game rules) - that, and I found the client-driven games we created during the semester to be fun and interesting, therby making it the perfect idea.
 
 ## Key Features
-Highlight some key features of this project that you want to show off/talk about/focus on. 
 
 ### User Accounts
 
@@ -55,11 +51,33 @@ Once the player finishes their hand, the dealer will automatically play their ha
 
 Given the results of each hand (and the decisions that were made along the way), the program will inform the user how much money they won / lost, and will provide them with their updated wallet amount after each hand.
 
-
 ## Guide
 How do we run your project? What should we do to see it in action? - Note this isn't installing, this is actual use of the project.. If it is a website, you can point towards the gui, use screenshots, etc talking about features. 
 
 To run the project, you will need to execute blackjack.py at the command line; once executed, the program will appear at the console, awaiting your input, of which can be any of the accepted commands (run 'Help' for information on what commands are acceptable).
+
+```console
+python3 ./blackjack.py 
+```
+
+```console
+Welcome to Blackjack 1.0 !
+What would you like to do (type 'Help' for more info)?:
+```
+
+```console
+What would you like to do (type 'Help' for more info)?: Help
+
+Type any of the following options:
+
+Create -> Setup your account by establishing a username and password.
+Login -> You know the drill. Enter your username and password to access your wallet. (Hint: Required to Play)
+Play -> Take a seat at the blackjack table. (Hint: Don't forget to load your wallet)
+Logout -> Going so soon? We hope to see you again!
+Deposit -> Loading your wallet. (Hint: Login Required)
+Balance -> Curious to know how much you lost? Get a quick update on the balance of your wallet. (Hint: Login Required)
+Quit -> End the program.
+```
 
 ## Installation Instructions
 If we wanted to run this project locally, what would we need to do?  If we need to get API key's include that information, and also command line startup commands to execute the project. If you have a lot of dependencies, you can also include a requirements.txt file, but make sure to include that we need to run `pip install -r requirements.txt` or something similar.
