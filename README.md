@@ -418,4 +418,15 @@ Below are some of the things I would like to explore, given more time to work on
 * AI generated hints when playing, in case the user is unsure
 
 ## Final Reflection
-Write at least a paragraph about your experience in this course. What did you learn? What do you need to do to learn more? Key takeaways? etc.
+
+Overall, I found this course to be a helpful refresher on the core python competencies that I learned in my previous studies. In light of this, I'd rather take this opportunity to focus on the things I learned for the first time / high level takeaways (post-midterm)! 
+
+For starters, this class finally gave me the confidence in my understanding of what classes and objects are. This whole time, I was convinced they were some mysterious phenomena ... and to find out that all the data structures I knew / used / understood were really objects in disguise, built from classes ... it honestly makes me laugh now. Another interesting concept we covered - that was new to me - were stacks and queues; I've always been aware of the LIFO and FIFO methodologies, but more from the lens of inventory accounting. Therefore, I found these concepts very easy to wrap my head around, and had an easy time comprehending it's implementation as an ADT (via, Class). I've yet to cover the final module (as I write this) but I imagine there will be some new, unearthed topics there for me.
+
+Importantly, I think back to the initial residency in Boston, and remember the phrase "Divide, Glue, Conquer". Having gone through this experience, I now see the importance of doing so when faced with large problems at hand. This project alone was challenging (and I'm already sure that I could have done a better job of applying this principle), so I can only imagine how increasingly complicated problems can become in the field and how increasingly important it is to not forget this mantra. Lastly, I think it's been really interesting to start considering the efficiencies of programs and to compare different algorithms that ultimately solve the same problem differently. Up until now, I've had a tendency to just program the first design that comes to mind ... I now see why that might not always be the best idea. 
+
+If there is one thing I'd like to learn more of (in reference to what was covered in this course), I feel as though my recall on object methods is really poor. For example, the amount of times I had to look up methods for string manipulation (because I forgot what exists or that I knew the operation I wanted but couldn't remember the name / arguments) was overbearing. I imagine the answer is 'it comes with practice', but in all honesty, that was one of the more frustrating parts of this semester.
+
+Thank you to all of the TAs for their effort and to Prof. Lionelle for bringing us all together for this experience.
+
+-Adam
