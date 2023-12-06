@@ -219,9 +219,9 @@ def test_update_wallet() -> int:
         account = file.readlines()[0].split(
             ',')  # find the current wallet value
 
-    inital_wallet = float(account[2])
+    initial_wallet = float(account[2])
 
-    account[2] = inital_wallet + 100  # add $100 to it
+    account[2] = initial_wallet + 100  # add $100 to it
 
     update_wallet(account, test_ledger_file)  # update wallet function
 
@@ -231,7 +231,7 @@ def test_update_wallet() -> int:
 
     # the new wallet value in the ledger should be 100 more than the original
     # wallet value
-    if new_wallet - 100 != inital_wallet:
+    if new_wallet - 100 != initial_wallet:
 
         failure_count += 1
 
