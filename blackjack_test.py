@@ -5,19 +5,26 @@ NAME: ADAM BRENNER
 SEMESTER: FALL 2023
 '''
 
-# will test place_bet, client_option_reader, play_game, user_credentials, new_user, main with recorded test runs (see saved IO transcripts)
+# will test place_bet, client_option_reader, play_game, user_credentials,
+# new_user, main with recorded test runs (see saved IO transcripts)
 from blackjack import doc, hand_calculator, dealer_play, card_to_text, user_login, user_already_exists, update_wallet, BlackjackHand
-import sys, os
+import sys
+import os
 
 test_ledger_file = 'user_login_test.txt'  # account ledger file for testing
 
-# found the following two functions here, as I was looking for a way to avoid print statements from called functions (https://stackoverflow.com/questions/8391411/how-to-block-calls-to-print#:~:text=If%20you%20don%27t%20want,the%20top%20of%20the%20file)
+# found the following two functions here, as I was looking for a way to
+# avoid print statements from called functions
+# (https://stackoverflow.com/questions/8391411/how-to-block-calls-to-print#:~:text=If%20you%20don%27t%20want,the%20top%20of%20the%20file)
+
 
 def blockPrint():
     sys.stdout = open(os.devnull, 'w')
 
+
 def enablePrint():
     sys.stdout = sys.__stdout__
+
 
 def test_hand_calculator() -> int:
     '''
@@ -29,27 +36,31 @@ def test_hand_calculator() -> int:
 
     failure_count = 0
 
-    if hand_calculator(['KH','10D','AC']) != 21:  # should be smart enough to read a hard ace value (1)
+    if hand_calculator(
+            ['KH', '10D', 'AC']) != 21:  # should be smart enough to read a hard ace value (1)
 
         failure_count += 1
 
-    if hand_calculator(['2H','2H','AD','5C']) != 20:  # should be smart enough to read a soft ace value
-
-        faulre_count += 1
-
-    if hand_calculator(['JH','QD','QC']) != 30:
+    if hand_calculator(['2H', '2H', 'AD', '5C']
+                       ) != 20:  # should be smart enough to read a soft ace value
 
         failure_count += 1
 
-    if hand_calculator(['AH','AC','AD']) != 13:  # should be smart enough to read one soft, two hard ace values
+    if hand_calculator(['JH', 'QD', 'QC']) != 30:
 
         failure_count += 1
 
-    if hand_calculator(['AH','2D','3H','4S','5D','6C']) != 21:
+    if hand_calculator(
+            ['AH', 'AC', 'AD']) != 13:  # should be smart enough to read one soft, two hard ace values
+
+        failure_count += 1
+
+    if hand_calculator(['AH', '2D', '3H', '4S', '5D', '6C']) != 21:
 
         failure_count += 1
 
     return failure_count
+
 
 def test_dealer_play() -> int:
     '''
@@ -65,19 +76,22 @@ def test_dealer_play() -> int:
     while counter < 100:  # simulating 100 hands
 
         hand = BlackjackHand()
-        dealer_play(hand) 
+        dealer_play(hand)
 
-        if hand_calculator(hand.hand[0:2]) >= 17 and len(hand.hand) > 2:  # if there inital hand is 17+, they should not finish with more than the two original cards they were dealt
+        # if there initial hand is 17+, they should not finish with more than
+        # the two original cards they were dealt
+        if hand_calculator(hand.hand[0:2]) >= 17 and len(hand.hand) > 2:
 
             failure_count += 1
 
         elif hand.value() < 17 or hand.value() > 26:  # the range of values their final hand can be in, given the dynamic, soft 17 game play - their hand should not finish below 17 and should not exceed 26 (i.e., worst case, hitting on 16 and gettting a 10, as an ace would put them at 17)
 
             failure_count += 1
-            
+
         counter += 1
 
     return failure_count
+
 
 def test_card_to_text() -> int:
     '''
@@ -107,6 +121,7 @@ def test_card_to_text() -> int:
 
     return failure_count
 
+
 def test_user_login() -> int:
     '''
     Tests user_login function
@@ -117,13 +132,13 @@ def test_user_login() -> int:
 
     failure_count = 0
 
-    account_info_1 = user_login('abren','123', test_ledger_file)
+    account_info_1 = user_login('abren', '123', test_ledger_file)
 
-    if account_info_1 == None:  # should return the account info
+    if account_info_1 is None:  # should return the account info
 
         failure_count += 1
 
-    elif type(account_info_1) != list:  # should be of type list
+    elif not isinstance(account_info_1, list):  # should be of type list
 
         failure_count += 1
 
@@ -135,25 +150,29 @@ def test_user_login() -> int:
 
         failure_count += 1
 
-    account_info_2 = user_login('abren','wrongpassword', test_ledger_file)  # wrong password should return no account info (you shall not PASS)
+    # wrong password should return no account info (you shall not PASS)
+    account_info_2 = user_login('abren', 'wrongpassword', test_ledger_file)
 
-    if account_info_2 != None:
-
-        failure_count += 1
-
-    account_info_3 = user_login('fake_user','123', test_ledger_file)  # username does NOT exist, therefore nothing should be returned
-
-    if account_info_3 != None:
+    if account_info_2 is not None:
 
         failure_count += 1
 
-    account_info_4 = user_login('abren','123','fake_ledger.txt')  # ledger file DNE - should return nothing
+    # username does NOT exist, therefore nothing should be returned
+    account_info_3 = user_login('fake_user', '123', test_ledger_file)
 
-    if account_info_4 != None:
+    if account_info_3 is not None:
+
+        failure_count += 1
+
+    # ledger file DNE - should return nothing
+    account_info_4 = user_login('abren', '123', 'fake_ledger.txt')
+
+    if account_info_4 is not None:
 
         failure_count += 1
 
     return failure_count
+
 
 def test_user_already_exists() -> int:
     '''
@@ -165,19 +184,25 @@ def test_user_already_exists() -> int:
 
     failure_count = 0
 
-    if user_already_exists('abren', test_ledger_file) is not True:  # should be True that abren exists
+    if user_already_exists(
+        'abren',
+            test_ledger_file) is not True:  # should be True that abren exists
 
         failure_count += 1
 
-    if user_already_exists('fake', test_ledger_file) is True:  # fake does not exist
+    if user_already_exists(
+            'fake', test_ledger_file) is True:  # fake does not exist
 
         failure_count += 1
 
-    # if user_already_exists('abren', 'fake_ledger.txt') is True:  # not including, as this function is not referenced anywhere where the ledger file is not in existence
+    # if user_already_exists('abren', 'fake_ledger.txt') is True:  # not
+    # including, as this function is not referenced anywhere where the ledger
+    # file is not in existence
 
     #     failure_count += 1
 
     return failure_count
+
 
 def test_update_wallet() -> int:
     '''
@@ -189,9 +214,10 @@ def test_update_wallet() -> int:
 
     failure_count = 0
 
-    with open(test_ledger_file,'r') as file:
+    with open(test_ledger_file, 'r') as file:
 
-        account = file.readlines()[0].split(',')  # find the current wallet value
+        account = file.readlines()[0].split(
+            ',')  # find the current wallet value
 
     inital_wallet = float(account[2])
 
@@ -199,15 +225,18 @@ def test_update_wallet() -> int:
 
     update_wallet(account, test_ledger_file)  # update wallet function
 
-    with open(test_ledger_file,'r') as file:  # re-pull from the account ledger
+    with open(test_ledger_file, 'r') as file:  # re-pull from the account ledger
 
         new_wallet = float(file.readlines()[0].split(',')[2])
 
-    if new_wallet - 100 != inital_wallet:  # the new wallet value in the ledger should be 100 more than the original wallet value
+    # the new wallet value in the ledger should be 100 more than the original
+    # wallet value
+    if new_wallet - 100 != inital_wallet:
 
         failure_count += 1
 
     return failure_count
+
 
 def test_BlackjackHand_hit() -> int:
     '''
@@ -233,6 +262,7 @@ def test_BlackjackHand_hit() -> int:
 
     return failure_count
 
+
 def test_BlackjackHand_value() -> int:
     '''
     Tests value method of BlackjackHand class
@@ -245,13 +275,14 @@ def test_BlackjackHand_value() -> int:
 
     failure_count = 0
 
-    hand.hand = ['QH','AS']  # overwriting hand
+    hand.hand = ['QH', 'AS']  # overwriting hand
 
     if hand.value() != 21:  # value method should make use to hand_calculator to assess hand value, in this case 21
 
         failure_count += 1
 
     return failure_count
+
 
 def main():
     '''
@@ -280,6 +311,7 @@ def main():
     print(f'update_wallet: {update_wallet_fails} failed tests')
     print(f'BlackjackHand.hit: {blackjack_hit_fails} failed tests')
     print(f'BlackjackHand.value: {blackjack_value_fails} failed tests\n')
+
 
 if __name__ == '__main__':
 

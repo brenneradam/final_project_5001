@@ -1,5 +1,5 @@
 """
-Blackack 1.0
+Blackjack 1.0
 
 A program that allows users to create an account, load/save their wallet, and play blackjack.
 
@@ -19,8 +19,8 @@ BLACKJACK_PUSH_MSG = 'Push - blackjack for everyone'
 BLACKJACK_NOBODY_HOME_MSG = "Dealer checked for Blackjack ... Nobody's Home!"
 INSURANCE_QUESTION_MSG = 'Would you like insurance on your hand (Y / N)?: '
 INVALID_INPUT_MSG = 'Invalid Input: Please Try Again!'
-INSUFFICIENT_FUNDS_MSG = 'Insufficent Funds: Please visit menu to deposit more funds.'
-MIN_BET_ERROR_MSG = 'Minimum bet not satisifed: Please place a bet equal or greater than the table minimum.'
+INSUFFICIENT_FUNDS_MSG = 'Insufficient Funds: Please visit menu to deposit more funds.'
+MIN_BET_ERROR_MSG = 'Minimum bet not satisfied: Please place a bet equal or greater than the table minimum.'
 DEALER_BUST_MSG = 'Dealer Busted - You Win!'
 DEALER_WINS_MSG = 'Dealer wins!'
 PLAYER_WINS_MSG = 'Player wins!'
@@ -36,7 +36,7 @@ WELCOME_MSG = 'Welcome to Blackjack 1.0 !'
 NO_USERS_FOUND_MSG = 'Username not found - please create an account to get started!'
 USERNAME_ENTRY_MSG = 'Please enter your username: '
 PASSWORD_ENTRY_MSG = 'Please enter your password (case sensitive): '
-ACCOUNT_CREATED_MSG = 'Your account has been sucessfully created!'
+ACCOUNT_CREATED_MSG = 'Your account has been successfully created!'
 HELP_MSG = '''\nType any of the following options:\n
 Create -> Setup your account by establishing a username and password.
 Login -> You know the drill. Enter your username and password to access your wallet. (Hint: Required to Play)
@@ -114,7 +114,7 @@ class BlackjackHand:
 
 def place_bet(wallet_value: int) -> int:
     '''
-    Prompts the user to place a bet; required to be equal or greater than yminimum bet
+    Prompts the user to place a bet; required to be equal or greater than minimum bet
 
     Arguments:
         wallet_value: the amount of money available in the user's account
@@ -126,13 +126,13 @@ def place_bet(wallet_value: int) -> int:
     bet_amount = input(MIN_BET_MSG)  # prompt the user to enter their bet
 
     if bet_amount.isdigit() == False:  # if the bet is not a whole number (will not not support cents on the dollar, as this is uncommon in most casinos)
-        print(INVALID_INPUT_MSG)  # reprompt
+        print(INVALID_INPUT_MSG)  # re-prompt
         return place_bet(wallet_value)
 
     bet_amount = float(bet_amount)  # convert the str to float
 
     if (wallet_value - bet_amount) < 0:  # if the bet can't be covered by the wallet amount
-        print(INSUFFICIENT_FUNDS_MSG)  # reprompt
+        print(INSUFFICIENT_FUNDS_MSG)  # re-prompt
         return place_bet(wallet_value)
 
     elif bet_amount < MINIMUM_BET:  # if the bet does not meet the minimum
@@ -168,7 +168,8 @@ def hand_calculator(hand: list) -> int:
 
     for ace in range(ace_cnt):  # for the number of aces counted
 
-        if hand_value + 11 > 21:  # if the ace will put the hand over 21, count it as a hard ace (1)
+        if hand_value + \
+                11 > 21:  # if the ace will put the hand over 21, count it as a hard ace (1)
             hand_value += 1
         else:  # otherwise, count it as a soft ace (11)
             hand_value += 11
@@ -178,7 +179,7 @@ def hand_calculator(hand: list) -> int:
 
 def dealer_play(hand: object) -> None:
     '''
-    Automatic hitting for the dealer, based on soft 17 gameplay.
+    Automatic hitting for the dealer, based on soft 17 game play.
 
     Arguments:
         hand: a hand of blackjack
@@ -188,7 +189,8 @@ def dealer_play(hand: object) -> None:
 
         hit_card = hand.hit()  # hand hit
 
-        print(f"Dealer was dealt the {card_to_text(hit_card)} ... their hand value is now {hand.value()}")
+        print(
+            f"Dealer was dealt the {card_to_text(hit_card)} ... their hand value is now {hand.value()}")
 
 
 def card_to_text(card: str) -> str:
@@ -234,7 +236,7 @@ def client_option_reader(input_msg: str, options: tuple) -> str:
         # expected options
         print(INVALID_INPUT_MSG)
 
-        # reprompt them with the client_option_reader()
+        # re-prompt them with the client_option_reader()
         return client_option_reader(input_msg, options)
 
 
@@ -249,7 +251,7 @@ def play_game(wallet) -> int:
         wallet: the user's updated wallet value, reflecting the winnings / losses from their single game of blackjack
     '''
 
-    bet = place_bet(wallet)  # place your inital bet
+    bet = place_bet(wallet)  # place your initial bet
 
     wallet -= bet  # subtracting the initial bet from the user's wallet value
 
@@ -258,11 +260,15 @@ def play_game(wallet) -> int:
     player = BlackjackHand()  # creating a random hand for the player
     dealer = BlackjackHand()  # creating a random hand for the dealer
 
-    print(f'Your hand is the {card_to_text(player.hand[0])}' + ' & ' + f'{card_to_text(player.hand[1])}, with a value of {str(player.value())}')
+    print(
+        f'Your hand is the {card_to_text(player.hand[0])}' +
+        ' & ' +
+        f'{card_to_text(player.hand[1])}, with a value of {str(player.value())}')
 
     print(f'Dealer showing {card_to_text(dealer.hand[0])}')
 
-    if doc_values[dealer.hand[0][:-1]] == 10 or dealer.hand[0][:-1] == 'A': # if the dealer shows a card worthy of checking for blackjack
+    if doc_values[dealer.hand[0][:-1]] == 10 or dealer.hand[0][:- \
+        1] == 'A': # if the dealer shows a card worthy of checking for blackjack
 
         # if you can still afford the insurance price, we will ask if you would
         # like insurance
@@ -275,12 +281,14 @@ def play_game(wallet) -> int:
                 insurance += (.5 * bet)  # funds applied to insurance
                 wallet -= insurance  # insurance taken out of wallet
 
-        if dealer.value() == 21 and player.value() != 21:  # if the dealer has blackjack and the user does NOT
+        if dealer.value() == 21 and player.value(
+        ) != 21:  # if the dealer has blackjack and the user does NOT
 
-            print(f'Dealer flips ... their hidden card is a {card_to_text(dealer.hand[1])}, yielding a dealer hand value of {dealer.value()}')
+            print(
+                f'Dealer flips ... their hidden card is a {card_to_text(dealer.hand[1])}, yielding a dealer hand value of {dealer.value()}')
             print(BLACKJACK_DEALER_MSG)  # informing user of loss
 
-            # user gets 3x their insurance bet (if any); this includes inital
+            # user gets 3x their insurance bet (if any); this includes initial
             # insurance bet (1x) + 2:1 winnings (2x)
             wallet += (insurance * 3)
 
@@ -288,7 +296,8 @@ def play_game(wallet) -> int:
 
         elif dealer.value() == 21 and player.value() == 21:  # if both dealer and player have 21
 
-            print(f'Dealer flips ... their hidden card is a {card_to_text(dealer.hand[1])}, yielding a dealer hand value of {dealer.value()}')
+            print(
+                f'Dealer flips ... their hidden card is a {card_to_text(dealer.hand[1])}, yielding a dealer hand value of {dealer.value()}')
             print(BLACKJACK_PUSH_MSG)  # informing user of push
 
             # user gets their original bet back + 3x insurance (if any)
@@ -312,8 +321,8 @@ def play_game(wallet) -> int:
 
     while player.value() < 21 and stay == False and double_down == False:
 
-        if len(player.hand) == 2 and (wallet - bet) >= 0:  
-            # if you still have your initally dealt hand and can afford another bet, you are presented with
+        if len(player.hand) == 2 and (wallet - bet) >= 0:
+            # if you still have your initially dealt hand and can afford another bet, you are presented with
             # a double down opportunity
 
             move = client_option_reader(
@@ -332,7 +341,8 @@ def play_game(wallet) -> int:
         elif move == 'S':  # if you are staying, set the stay variable to True to break loop
             stay = True
 
-        # if you are doubling down - no need to check if you can afford (done above)
+        # if you are doubling down - no need to check if you can afford (done
+        # above)
         elif move == 'D':
             wallet -= bet  # subtract an additional bet from the user's wallet
             hit_card = player.hit()  # take a hit
@@ -399,7 +409,10 @@ def user_credentials() -> (str, str):
     return username, password
 
 
-def user_login(username: str, password: str, ledger: str = ACCOUNT_LEDGER) -> list:
+def user_login(
+        username: str,
+        password: str,
+        ledger: str = ACCOUNT_LEDGER) -> list:
     '''
     References a provided username and password to access the user's account information
 
@@ -417,7 +430,7 @@ def user_login(username: str, password: str, ledger: str = ACCOUNT_LEDGER) -> li
 
             for line in file:  # for each line in the file
 
-                # split all the account information (comma seperated)
+                # split all the account information (comma separated)
                 account = line.split(',')
 
                 # if the username (in account line) matches the provided
@@ -440,7 +453,7 @@ def user_login(username: str, password: str, ledger: str = ACCOUNT_LEDGER) -> li
 
                     pass  # continue to the next account (line) in the file
 
-        # inidicate if there is no username found
+        # indicate if there is no username found
         print(
             f"We can't find an account under the provided username: {username} - please create an account to get started!")
 
@@ -468,7 +481,7 @@ def user_already_exists(user: str, ledger: str = ACCOUNT_LEDGER) -> bool:
 
         for line in file:  # iterate through each line
 
-            # split up the account information (comma seperated)
+            # split up the account information (comma separated)
             x = line.split(',')
 
             if x[0] == user:  # if the username exists, return True
@@ -598,7 +611,7 @@ def main():
 
             # placeholder for when the user opts to stop playing (break's loop)
             play_again = True
-            inital_hand = True  # placeholder to denote when the inital hand is dealt
+            initial_hand = True  # placeholder to denote when the initial hand is dealt
 
             print(f'Current wallet amount: ' + '${:,.2f}'.format(wallet))
 
@@ -606,7 +619,7 @@ def main():
             # continue playing
             while wallet >= MINIMUM_BET and play_again:
 
-                if inital_hand == False:  # if this is not the first hand dealt, ask the user if they want to continue playing
+                if initial_hand == False:  # if this is not the first hand dealt, ask the user if they want to continue playing
 
                     question = client_option_reader(
                         'Want to play another hand (Y/N)?: ', ('Y', 'N'))
@@ -620,7 +633,7 @@ def main():
                         break  # breaking the loop
 
                 else:
-                    inital_hand = False  # if it is the initial hand, set to False for later hands
+                    initial_hand = False  # if it is the initial hand, set to False for later hands
 
                 # play blackjack with the user's wallet amount
                 new_wallet = play_game(wallet)
@@ -628,19 +641,23 @@ def main():
                 if wallet > new_wallet:  # if the wallet amount before the game is greater than the wallet amount after the game
 
                     # inform the user of their losses
-                    print(f'You Lost: ' + '${:,.2f}'.format(abs(wallet - new_wallet)))
+                    print(f'You Lost: ' +
+                          '${:,.2f}'.format(abs(wallet - new_wallet)))
 
                 elif wallet < new_wallet:  # if the wallet amount before the game is less than the wallet amount after the game
 
                     # inform the user of their winnings
-                    print(f'You Won: ' + '${:,.2f}'.format(abs(wallet - new_wallet)))
+                    print(f'You Won: ' +
+                          '${:,.2f}'.format(abs(wallet - new_wallet)))
 
                 # inform the user of their wallet balance, post game
-                print(f'Current wallet amount: ' + '${:,.2f}'.format(new_wallet))
+                print(
+                    f'Current wallet amount: ' +
+                    '${:,.2f}'.format(new_wallet))
 
                 wallet = new_wallet  # update wallet to reflect the new wallet amount
 
-            # when the Blackjack gameplay ends, update the user's account
+            # when the Blackjack game play ends, update the user's account
             # information with the newest wallet amount, reflecting their
             # losses / winnings from the session
             account[2] = str(wallet)
@@ -719,7 +736,11 @@ def main():
 
             deposit = -1  # placeholder for deposit amount
 
-            print(f'Your current wallet amount is ' + '${:,.2f}'.format(float(account[2])))
+            print(
+                f'Your current wallet amount is ' +
+                '${:,.2f}'.format(
+                    float(
+                        account[2])))
 
             while deposit == -1:
 
@@ -744,7 +765,10 @@ def main():
             update_wallet(account)
 
             print(
-                f'You sucessfully deposited ' + '${:,.2f}'.format(deposit) + ', your wallet balance is ' + '${:,.2f}'.format(wallet))
+                f'You successfully deposited ' +
+                '${:,.2f}'.format(deposit) +
+                ', your wallet balance is ' +
+                '${:,.2f}'.format(wallet))
 
         elif user_input == 'Quit':
 
